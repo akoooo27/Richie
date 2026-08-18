@@ -1,5 +1,9 @@
 <Solution>
   <Folder Name="/src/" />
+  <Folder Name="/src/Aspire/">
+    <Project Path="src/Aspire/Richie.AppHost/Richie.AppHost.csproj" />
+    <Project Path="src/Aspire/Richie.ServiceDefaults/Richie.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/SharedKernel/SharedKernel.csproj" />
   </Folder>
