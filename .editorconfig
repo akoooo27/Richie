@@ -396,5 +396,26 @@ dotnet_diagnostic.CA1711.severity = none
 # CA1724: Type names should not match namespaces
 dotnet_diagnostic.CA1724.severity = none
 
+# CA1812: Avoid uninstantiated internal classes
+# DI/EF-instantiated internal types (DbContext, Identity entities) are false positives.
+dotnet_diagnostic.CA1812.severity = none
+
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
+
+#### Generated code ####
+
+# EF Core migrations are tool-generated and must not be analyzed or style-enforced
+# in any project. Matches e.g. src/Services/Identity.API/Database/Migrations/Identity/*.cs.
+[**/Migrations/**.cs]
+
+# Treat as generated so analyzers that honour the generated-code flag skip these files entirely.
+generated_code = true
+
+# Bulk-disable every analyzer diagnostic (CA*, IDE*, S* from SonarAnalyzer) for these files.
+dotnet_analyzer_diagnostic.severity = none
+
+# Bulk configuration does not override rules whose severity is set through the
+# `option = value:severity` syntax above, so silence those explicitly.
+dotnet_diagnostic.IDE0044.severity = none
+dotnet_diagnostic.IDE0062.severity = none

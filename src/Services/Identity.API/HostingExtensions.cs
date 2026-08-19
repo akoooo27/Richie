@@ -1,5 +1,11 @@
 using System.Globalization;
 
+using Identity.API.Database;
+using Identity.API.Database.Entities;
+
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 using Richie.ServiceDefaults;
 
 using Serilog;
@@ -37,6 +43,29 @@ internal static class HostingExtensions
     {
         builder.Logging.ClearProviders();
         builder.AddServiceDefaults();
+
+        builder.AddNpgsqlDbContext<ApplicationDbContext>
+        (
+            connectionName: "identity-db",
+            configureDbContextOptions: static options => options
+                .UseNpgsql(static npgsql =>
+                    npgsql.MigrationsHistoryTable("__ef_migrations_history", Schemas.Identity))
+                .UseSnakeCaseNamingConvention()
+        );
+
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 12;
+                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+
+                options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         return builder;
     }
