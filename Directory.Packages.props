@@ -43,6 +43,11 @@
     <PackageVersion Include="Duende.IdentityServer.EntityFramework" Version="8.0.6" />
     <PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="8.0.6" />
     
+    <!-- BFF -->
+    <PackageVersion Include="Duende.BFF" Version="4.2.0" />
+    <PackageVersion Include="Duende.BFF.EntityFramework" Version="4.2.0" />
+    <PackageVersion Include="Duende.BFF.Yarp" Version="4.2.0" />
+    
     <!-- Serilog -->
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />

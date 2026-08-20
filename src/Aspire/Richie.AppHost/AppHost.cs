@@ -7,6 +7,8 @@ IResourceBuilder<PostgresServerResource> postgres = builder.AddPostgres("postgre
 
 IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identity-db");
 
+IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-bff-db");
+
 IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
     .WaitFor(identityDb)
@@ -28,6 +30,20 @@ IResourceBuilder<EFMigrationResource> operationalMigrations = identityApi
 
 identityApi.WaitForCompletion(identityMigrations);
 identityApi.WaitForCompletion(operationalMigrations);
+
+IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>("web-bff")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb)
+    .WithHttpHealthCheck("/health");
+
+IResourceBuilder<EFMigrationResource> sessionMigrations = webBff
+    .AddEFMigrations("bff-session-migrations", "Duende.Bff.EntityFramework.SessionDbContext")
+    .WithMigrationOutputDirectory("Database/Migrations/Sessions")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb)
+    .RunDatabaseUpdateOnStart();
+
+webBff.WaitForCompletion(sessionMigrations);
 
 await builder
     .Build()
