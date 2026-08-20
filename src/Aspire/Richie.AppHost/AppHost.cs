@@ -19,7 +19,15 @@ IResourceBuilder<EFMigrationResource> identityMigrations = identityApi
     .WaitFor(identityDb)
     .RunDatabaseUpdateOnStart();
 
+IResourceBuilder<EFMigrationResource> operationalMigrations = identityApi
+    .AddEFMigrations("operational-migrations", "Duende.IdentityServer.EntityFramework.DbContexts.PersistedGrantDbContext")
+    .WithMigrationOutputDirectory("Database/Migrations/Operational")
+    .WithReference(identityDb)
+    .WaitFor(identityDb)
+    .RunDatabaseUpdateOnStart();
+
 identityApi.WaitForCompletion(identityMigrations);
+identityApi.WaitForCompletion(operationalMigrations);
 
 await builder
     .Build()

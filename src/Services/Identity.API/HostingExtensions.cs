@@ -3,6 +3,7 @@ using System.Globalization;
 using Identity.API.Database;
 using Identity.API.Database.Entities;
 
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,6 +68,50 @@ internal static class HostingExtensions
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+        builder.Services.AddIdentityServer()
+            .AddOperationalStore(options =>
+            {
+                // Eager zone: assignments only — this body runs at design time (verified).
+                options.DefaultSchema = Schemas.Operational;
+
+                options.DeviceFlowCodes.Name = "device_flow_codes";
+                options.Keys.Name = "keys";
+                options.PersistedGrants.Name = "persisted_grants";
+                options.PushedAuthorizationRequests.Name = "par";
+                options.SamlLogoutSessionRequestIndices.Name = "saml_logout_session_request_indices";
+                options.SamlLogoutSessions.Name = "saml_logout_sessions";
+                options.SamlSigninStates.Name = "saml_signin_states";
+                options.ServerSideSessions.Name = "server_side_sessions";
+
+                options.EnableTokenCleanup = true;
+                options.TokenCleanupInterval = 3600;
+                options.TokenCleanupBatchSize = 100;
+
+                // Deferred zone — but it ALSO runs on every dotnet ef command (verified),
+                // so the connection string read must stay null-tolerant.
+                options.ResolveDbContextOptions = static (provider, dbOptions) =>
+                {
+                    string? connectionString = provider
+                        .GetRequiredService<IConfiguration>()
+                        .GetConnectionString("identity-db");
+
+                    dbOptions.UseNpgsql(connectionString, static npgSql =>
+                    {
+                        npgSql.MigrationsAssembly("Identity.API");
+                        npgSql.MigrationsHistoryTable("__ef_migrations_history", Schemas.Operational);
+                    });
+
+                    dbOptions.UseSnakeCaseNamingConvention();
+                };
+            })
+            .AddServerSideSessions()
+            .AddAspNetIdentity<ApplicationUser>();
+
+        builder.Services.AddAuthorization();
+
+        builder.Services.AddDataProtection()
+            .SetApplicationName("Identity.API");
+
         return builder;
     }
 
@@ -88,6 +133,9 @@ internal static class HostingExtensions
         });
 
         app.MapDefaultEndpoints();
+
+        app.UseIdentityServer();
+        app.UseAuthorization();
 
         return app;
     }
