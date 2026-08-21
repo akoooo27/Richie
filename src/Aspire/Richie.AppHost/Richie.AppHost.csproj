@@ -3,10 +3,18 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <UserSecretsId>80981707-6744-4d4a-8a98-4d03bd3fffaa</UserSecretsId>
+    <AspireUseCliBundle>true</AspireUseCliBundle>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Aspire.Hosting.EntityFrameworkCore" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Identity.API\Identity.API.csproj" />
+    <ProjectReference Include="..\..\Services\Web.BFF\Web.BFF.csproj" />
   </ItemGroup>
 
 </Project>
