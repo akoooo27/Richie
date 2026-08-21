@@ -9,10 +9,31 @@ IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("id
 
 IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-bff-db");
 
+IResourceBuilder<ParameterResource> bffClientSecret = builder.AddParameter
+(
+    name: "bff-client-secret",
+    value: new GenerateParameterDefault { MinLength = 32, Special = false },
+    secret: true,
+    persist: true
+);
+
 IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
     .WaitFor(identityDb)
     .WithHttpHealthCheck("/health");
+
+IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>("web-bff")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb)
+    .WithHttpHealthCheck("/health")
+    .WithReference(identityApi)
+    .WaitFor(identityApi)
+    .WithEnvironment("Oidc__Authority", identityApi.GetEndpoint("https"))
+    .WithEnvironment("Oidc__ClientSecret", bffClientSecret);
+
+identityApi
+    .WithEnvironment("BffClient__BaseUrl", webBff.GetEndpoint("https"))
+    .WithEnvironment("BffClient__Secret", bffClientSecret);
 
 IResourceBuilder<EFMigrationResource> identityMigrations = identityApi
     .AddEFMigrations("identity-migrations", "Identity.API.Database.ApplicationDbContext")
@@ -28,14 +49,6 @@ IResourceBuilder<EFMigrationResource> operationalMigrations = identityApi
     .WaitFor(identityDb)
     .RunDatabaseUpdateOnStart();
 
-identityApi.WaitForCompletion(identityMigrations);
-identityApi.WaitForCompletion(operationalMigrations);
-
-IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>("web-bff")
-    .WithReference(webBffDb)
-    .WaitFor(webBffDb)
-    .WithHttpHealthCheck("/health");
-
 IResourceBuilder<EFMigrationResource> sessionMigrations = webBff
     .AddEFMigrations("bff-session-migrations", "Duende.Bff.EntityFramework.SessionDbContext")
     .WithMigrationOutputDirectory("Database/Migrations/Sessions")
@@ -43,6 +56,8 @@ IResourceBuilder<EFMigrationResource> sessionMigrations = webBff
     .WaitFor(webBffDb)
     .RunDatabaseUpdateOnStart();
 
+identityApi.WaitForCompletion(identityMigrations);
+identityApi.WaitForCompletion(operationalMigrations);
 webBff.WaitForCompletion(sessionMigrations);
 
 await builder

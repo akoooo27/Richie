@@ -1,11 +1,16 @@
 using System.Globalization;
 
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Stores;
+
+using Identity.API.Configuration;
 using Identity.API.Database;
 using Identity.API.Database.Entities;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 using Richie.ServiceDefaults;
 
@@ -68,7 +73,21 @@ internal static class HostingExtensions
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+        builder.Services.AddOptions<BffClientSettings>()
+            .BindConfiguration(BffClientSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        // Deferred zone: resolved at first client lookup, so the secret is never read
+        // (or hashed) at design time. Equivalent to what AddInMemoryClients registers,
+        // minus its eager enumeration of the client list.
+        builder.Services.AddSingleton<IEnumerable<Client>>(static provider =>
+            IdentityServerConfiguration.GetClients(
+                provider.GetRequiredService<IOptions<BffClientSettings>>().Value));
+
         builder.Services.AddIdentityServer()
+            .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
+            .AddClientStore<InMemoryClientStore>()
             .AddOperationalStore(options =>
             {
                 // Eager zone: assignments only — this body runs at design time (verified).

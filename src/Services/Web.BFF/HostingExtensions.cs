@@ -13,6 +13,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
+using Web.BFF.Configuration;
 using Web.BFF.Database;
 
 namespace Web.BFF;
@@ -59,7 +60,33 @@ internal static class HostingExtensions
                 .UseSnakeCaseNamingConvention()
         );
 
+        builder.Services.AddOptions<OidcSettings>()
+            .BindConfiguration(OidcSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
         builder.Services.AddBff()
+            .ConfigureOpenIdConnect(options =>
+            {
+                // Deferred zone: BFF stores this action in BffOptions and applies it when
+                // the OIDC handler is materialized — never at design time.
+                options.Authority = builder.Configuration["Oidc:Authority"];
+                options.ClientId = builder.Configuration["Oidc:ClientId"];
+                options.ClientSecret = builder.Configuration["Oidc:ClientSecret"];
+
+                options.ResponseType = "code";
+                options.ResponseMode = "query";
+
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.SaveTokens = true;
+                options.MapInboundClaims = false;
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("offline_access");
+            })
+            .ConfigureCookies(static options => options.Cookie.SameSite = SameSiteMode.Strict)
             .AddEntityFrameworkServerSideSessionsServices<SessionDbContext, IBffServicesBuilder>()
             .ConfigureEntityFrameworkSessionStoreOptions(static options =>
             {
@@ -68,6 +95,8 @@ internal static class HostingExtensions
                 options.UserSessions.Name = "user_sessions";
             })
             .AddSessionCleanupBackgroundProcess();
+
+        builder.Services.AddAuthorization();
 
         builder.Services.AddDataProtection()
             .SetApplicationName("Web.BFF");
@@ -91,6 +120,11 @@ internal static class HostingExtensions
                     : LogEventLevel.Information;
             };
         });
+
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseBff();
+        app.UseAuthorization();
 
         app.MapDefaultEndpoints();
 
