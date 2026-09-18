@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "src/Aspire/Richie.AppHost/Richie.AppHost.csproj"
+  }
+}
