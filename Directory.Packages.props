@@ -1,0 +1,19 @@
+<Project>
+  
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Static code analysis -->
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.34.0.3385" />
+    
+    <!-- Domain -->
+    <PackageVersion Include="ErroOr" Version="2.1.1" />
+    
+    <PackageVersion Include="Vogen" Version="1.0.25" />
+    
+    <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
+  </ItemGroup>
+  
+</Project>
