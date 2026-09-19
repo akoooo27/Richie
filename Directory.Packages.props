@@ -1,41 +1,46 @@
 <Project>
-  
+
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <!-- Static code analysis -->
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.34.0.3385" />
-    
+
     <!-- Domain -->
-    <PackageVersion Include="ErroOr" Version="2.1.1" />
-    
+    <PackageVersion Include="ErrorOr" Version="2.1.1" />
     <PackageVersion Include="Vogen" Version="1.0.25" />
-    
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
-    
-    <!-- Infrastructure -->
+
+    <!-- IdentityServer -->
+    <PackageVersion Include="Duende.IdentityServer" Version="8.0.8" />
+    <PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="8.0.8" />
+    <PackageVersion Include="Duende.IdentityServer.EntityFramework" Version="8.0.8" />
+
+    <!-- ASP.NET Core Identity -->
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
+
+    <!-- Persistence -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.5.4" />
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
-    
-    <!-- Aspire  -->
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.4" />
 
+    <!-- Aspire hosting -->
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.4" />
     <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.5.4" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.5.4" />
     <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.5.4-preview.1.26464.4" />
-    
+
+    <!-- Service defaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.10.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.10.0" />
-
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.19.0" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.19.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.19.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.19.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.19.0" />
   </ItemGroup>
-  
+
 </Project>

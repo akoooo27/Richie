@@ -1,11 +1,7 @@
-using Richie.ServiceDefaults;
+using Identity.API;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.AddServiceDefaults();
-
-WebApplication app = builder.Build();
-
-app.MapDefaultEndpoints();
+WebApplication app = WebApplication.CreateBuilder(args)
+    .ConfigureServices()
+    .ConfigurePipeline();
 
 await app.RunAsync();
