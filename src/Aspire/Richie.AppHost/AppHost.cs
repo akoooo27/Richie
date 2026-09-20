@@ -25,6 +25,19 @@ IResourceBuilder<EFMigrationResource> identityUsersMigrations = identityApi
 
 identityApi.WaitForCompletion(identityUsersMigrations);
 
+IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityApi
+    .AddEFMigrations
+    (
+        name: "identity-operational-migrations",
+        dbContextTypeName: "Duende.IdentityServer.EntityFramework.DbContexts.PersistedGrantDbContext"
+    )
+    .WithMigrationOutputDirectory("Database/Migrations/PersistedGrantDb")
+    .WithReference(identityDb)
+    .WaitFor(identityDb)
+    .RunDatabaseUpdateOnStart();
+
+identityApi.WaitForCompletion(identityOperationalMigrations);
+
 builder.AddViteApp("web-ui", "../../Clients/Web.UI")
     .WithBun()
     .WithExternalHttpEndpoints();
