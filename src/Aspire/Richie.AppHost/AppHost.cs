@@ -8,6 +8,8 @@ IResourceBuilder<PostgresServerResource> postgres = builder.AddPostgres("postgre
 
 IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identity-db");
 
+IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-bff-db");
+
 IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
     .WaitFor(identityDb);
@@ -41,6 +43,10 @@ identityApi.WaitForCompletion(identityOperationalMigrations);
 builder.AddViteApp("web-ui", "../../Clients/Web.UI")
     .WithBun()
     .WithExternalHttpEndpoints();
+
+builder.AddProject<Projects.Web_BFF>("web-bff")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb);
 
 await builder
     .Build()
