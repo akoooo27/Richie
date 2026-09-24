@@ -1,0 +1,17 @@
+@page
+@model Identity.API.Pages.Index
+
+<div class="welcome-page">
+    <h1>Richie Identity</h1>
+
+    @if (Model.DisplayName is not null)
+    {
+        <p>You are signed in as <strong>@Model.DisplayName</strong>.</p>
+        <a class="btn btn-secondary" asp-page="/Account/Logout/Index">Logout</a>
+    }
+    else
+    {
+        <p>You are not signed in.</p>
+        <a class="btn btn-primary" asp-page="/Account/Login/Index">Login</a>
+    }
+</div>

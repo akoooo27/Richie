@@ -1,0 +1,59 @@
+@page
+@model Identity.API.Pages.Account.Login.Index
+
+<div class="login-page">
+    <div class="lead">
+        <h1>Login</h1>
+    </div>
+
+    <partial name="_ValidationSummary" />
+
+    <div class="row">
+        @if (Model.View.EnableLocalLogin)
+        {
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Local Account</h2>
+                    </div>
+
+                    <div class="card-body">
+                        <form asp-page="/Account/Login/Index">
+                            <input type="hidden" asp-for="Input.ReturnUrl" />
+
+                            <div class="mb-3">
+                                <label class="form-label" asp-for="Input.Username"></label>
+                                <input class="form-control" placeholder="Username" autocomplete="username" asp-for="Input.Username" autofocus />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" asp-for="Input.Password"></label>
+                                <input type="password" class="form-control" placeholder="Password" autocomplete="current-password" asp-for="Input.Password" />
+                            </div>
+
+                            @if (Model.View.AllowRememberLogin)
+                            {
+                                <div class="mb-3 form-check">
+                                    <input class="form-check-input" asp-for="Input.RememberLogin" />
+                                    <label class="form-check-label" asp-for="Input.RememberLogin">Remember My Login</label>
+                                </div>
+                            }
+
+                            <button class="btn btn-primary" name="Input.Button" value="login">Login</button>
+                            <button class="btn btn-secondary" name="Input.Button" value="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-6">
+                <div class="alert alert-warning">
+                    <strong>Invalid login request</strong>
+                    There are no login schemes configured for this request.
+                </div>
+            </div>
+        }
+    </div>
+</div>

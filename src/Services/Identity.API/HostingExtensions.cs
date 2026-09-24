@@ -2,6 +2,7 @@ using Duende.IdentityServer.EntityFramework.DbContexts;
 
 using Identity.API.Database;
 using Identity.API.Database.Entities;
+using Identity.API.Pages;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,11 @@ internal static class HostingExtensions
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.Services.AddRazorPages(static options =>
+        {
+            options.Conventions.ConfigureFilter(new SecurityHeadersAttribute());
+        });
 
         string? identityDbConnectionString = builder.Configuration.GetConnectionString(IdentityDbConnectionName);
 
@@ -107,7 +113,9 @@ internal static class HostingExtensions
         app.UseIdentityServer();
         app.UseAuthorization();
 
+        app.MapRazorPages()
+            .RequireAuthorization();
+
         return app;
     }
-
 }

@@ -1,0 +1,33 @@
+@page
+@model Identity.API.Pages.Home.Error.Index
+
+<div class="error-page">
+    <div class="lead">
+        <h1>Error</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="alert alert-danger">
+                Sorry, there was an error
+
+                @if (Model.Message is not null)
+                {
+                    <strong>
+                        <em>: @Model.Message.Error</em>
+                    </strong>
+
+                    @if (Model.Message.ErrorDescription is not null)
+                    {
+                        <div>@Model.Message.ErrorDescription</div>
+                    }
+                }
+            </div>
+
+            @if (Model.Message?.RequestId is not null)
+            {
+                <div class="request-id">Request Id: @Model.Message.RequestId</div>
+            }
+        </div>
+    </div>
+</div>
