@@ -1,0 +1,10 @@
+.body-container {
+    margin-top: 60px;
+    padding-bottom: 40px;
+}
+
+.logged-out-page iframe {
+    display: none;
+    width: 0;
+    height: 0;
+}

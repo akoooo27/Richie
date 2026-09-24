@@ -398,3 +398,12 @@ dotnet_diagnostic.CA1724.severity = none
 
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
+
+# CA1812: Avoid uninstantiated internal classes
+# Entities, DbContexts and entity configurations are internal (CA1515) and instantiated by EF Core / DI.
+dotnet_diagnostic.CA1812.severity = none
+
+# EF Core migrations are generated code
+[**/Migrations/**.cs]
+generated_code = true
+dotnet_analyzer_diagnostic.severity = none

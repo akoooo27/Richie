@@ -1,0 +1,19 @@
+@using Duende.IdentityServer.Extensions
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-page="/Index">Richie Identity</a>
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <span class="navbar-text me-3">@User.GetDisplayName()</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-page="/Account/Logout/Index">Logout</a>
+                </li>
+            </ul>
+        }
+    </div>
+</nav>
