@@ -1,4 +1,5 @@
 using Duende.Bff;
+using Duende.Bff.DynamicFrontends;
 using Duende.Bff.EntityFramework;
 using Duende.Bff.Yarp;
 
@@ -27,6 +28,17 @@ internal static class HostingExtensions
         string authority = required.HttpsAddress("Oidc:Authority");
         string clientId = required.Value("Oidc:ClientId");
         string clientSecret = required.Value("Oidc:ClientSecret");
+        BffFrontend frontend = new(BffFrontendName.Parse("web-ui"));
+
+        if (builder.Environment.IsDevelopment())
+        {
+            string devServerUrl = required.HttpsAddress("Frontend:DevServerUrl");
+
+            if (devServerUrl.Length > 0)
+            {
+                frontend = frontend.WithProxiedStaticAssets(new Uri(devServerUrl));
+            }
+        }
 
         builder.Services.AddBff()
             .AddRemoteApis()
@@ -52,6 +64,7 @@ internal static class HostingExtensions
                 options.TokenValidationParameters.NameClaimType = "name";
                 options.TokenValidationParameters.RoleClaimType = "role";
             })
+            .AddFrontends(frontend)
             .AddEntityFrameworkServerSideSessions(db =>
             {
                 db
@@ -87,10 +100,17 @@ internal static class HostingExtensions
     {
         app.MapDefaultEndpoints();
 
+        app.UseStaticFiles();
+
         app.UseAuthentication();
         app.UseRouting();
         app.UseBff();
         app.UseAuthorization();
+
+        if (!app.Environment.IsDevelopment())
+        {
+            app.MapFallbackToFile("index.html");
+        }
 
         return app;
     }

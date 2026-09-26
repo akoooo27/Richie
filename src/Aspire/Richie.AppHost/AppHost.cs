@@ -1,4 +1,5 @@
 using Aspire.Hosting.EntityFrameworkCore;
+using Aspire.Hosting.JavaScript;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
@@ -26,6 +27,13 @@ IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Iden
     .WithReference(identityDb)
     .WaitFor(identityDb);
 
+#pragma warning disable ASPIRECERTIFICATES001
+IResourceBuilder<ViteAppResource> webUi = builder.AddViteApp("web-ui", "../../Clients/Web.UI")
+    .WithBun()
+    .WithHttpsEndpoint(env: "PORT")
+    .WithHttpsDeveloperCertificate();
+#pragma warning restore ASPIRECERTIFICATES001
+
 IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>("web-bff", "https")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
@@ -34,16 +42,20 @@ IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>(
     .WithEnvironment("Oidc__Authority", identityApi.GetEndpoint("https"))
     .WithEnvironment("Oidc__ClientId", webBffClientId)
     .WithEnvironment("Oidc__ClientSecret", webBffClientSecret)
-    .WaitFor(identityApi);
+    .WaitFor(identityApi)
+    .PublishWithContainerFiles(webUi, "./wwwroot");
+
+if (builder.ExecutionContext.IsRunMode)
+{
+    webBff
+        .WithEnvironment("Frontend__DevServerUrl", webUi.GetEndpoint("https"))
+        .WaitFor(webUi);
+}
 
 identityApi
     .WithEnvironment("Clients__WebBff__BaseUrl", webBff.GetEndpoint("https"))
     .WithEnvironment("Clients__WebBff__ClientId", webBffClientId)
     .WithEnvironment("Clients__WebBff__ClientSecret", webBffClientSecret);
-
-builder.AddViteApp("web-ui", "../../Clients/Web.UI")
-    .WithBun()
-    .WithExternalHttpEndpoints();
 
 IResourceBuilder<EFMigrationResource> identityUsersMigrations = identityApi
     .AddEFMigrations
