@@ -1,5 +1,6 @@
 using Duende.IdentityServer.EntityFramework.DbContexts;
 
+using Identity.API.Configuration;
 using Identity.API.Database;
 using Identity.API.Database.Entities;
 using Identity.API.Pages;
@@ -27,12 +28,12 @@ internal static class HostingExtensions
             options.Conventions.ConfigureFilter(new SecurityHeadersAttribute());
         });
 
-        string? identityDbConnectionString = builder.Configuration.GetConnectionString(IdentityDbConnectionName);
+        RequiredConfiguration required = new(builder.Configuration);
 
-        if (identityDbConnectionString is null && !EF.IsDesignTime)
-        {
-            throw new InvalidOperationException($"Connection string '{IdentityDbConnectionName}' is missing.");
-        }
+        string identityDbConnectionString = required.ConnectionString(IdentityDbConnectionName);
+        string webBffBaseUrl = required.HttpsAddress("Clients:WebBff:BaseUrl");
+        string webBffClientId = required.Value("Clients:WebBff:ClientId");
+        string webBffClientSecret = required.Value("Clients:WebBff:ClientSecret");
 
         builder.AddNpgsqlDbContext<ApplicationDbContext>
         (
@@ -62,8 +63,16 @@ internal static class HostingExtensions
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             })
-            .AddInMemoryClients([])
-            .AddInMemoryIdentityResources([])
+            .AddInMemoryClients
+            (
+                IdentityServerConfiguration.GetClients
+                (
+                    webBffBaseUrl: webBffBaseUrl,
+                    webBffClientId: webBffClientId,
+                    webBffClientSecret: webBffClientSecret
+                )
+            )
+            .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
             .AddInMemoryApiScopes([])
             .AddOperationalStore(options =>
             {
@@ -101,7 +110,11 @@ internal static class HostingExtensions
         builder.Services.AddDataProtection()
             .SetApplicationName("Identity.API");
 
-        return builder.Build();
+        WebApplication app = builder.Build();
+
+        required.ThrowIfInvalid();
+
+        return app;
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)

@@ -18,6 +18,11 @@
     <PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="8.0.8" />
     <PackageVersion Include="Duende.IdentityServer.EntityFramework" Version="8.0.8" />
 
+    <!-- BFF -->
+    <PackageVersion Include="Duende.BFF" Version="4.3.0" />
+    <PackageVersion Include="Duende.BFF.Yarp" Version="4.3.0" />
+    <PackageVersion Include="Duende.BFF.EntityFramework" Version="4.3.0" />
+
     <!-- ASP.NET Core Identity -->
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.12" />
 
@@ -26,7 +31,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.5.4" />
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
-
+    
     <!-- Aspire hosting -->
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.4" />
     <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.5.4" />

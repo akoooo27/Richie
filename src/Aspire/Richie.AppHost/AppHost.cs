@@ -1,4 +1,5 @@
 using Aspire.Hosting.EntityFrameworkCore;
+using Aspire.Hosting.JavaScript;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
@@ -8,9 +9,53 @@ IResourceBuilder<PostgresServerResource> postgres = builder.AddPostgres("postgre
 
 IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identity-db");
 
-IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
+IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-bff-db");
+
+IResourceBuilder<ParameterResource> webBffClientSecret = builder.AddParameter
+(
+    "web-bff-client-secret",
+    new GenerateParameterDefault { MinLength = 32 },
+    secret: true,
+    persist: true
+);
+
+const string webBffClientId = "web-bff";
+
+IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api", "https")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
     .WithReference(identityDb)
     .WaitFor(identityDb);
+
+#pragma warning disable ASPIRECERTIFICATES001
+IResourceBuilder<ViteAppResource> webUi = builder.AddViteApp("web-ui", "../../Clients/Web.UI")
+    .WithBun()
+    .WithHttpsEndpoint(env: "PORT")
+    .WithHttpsDeveloperCertificate();
+#pragma warning restore ASPIRECERTIFICATES001
+
+IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>("web-bff", "https")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb)
+    .WithEnvironment("Oidc__Authority", identityApi.GetEndpoint("https"))
+    .WithEnvironment("Oidc__ClientId", webBffClientId)
+    .WithEnvironment("Oidc__ClientSecret", webBffClientSecret)
+    .WaitFor(identityApi)
+    .PublishWithContainerFiles(webUi, "./wwwroot");
+
+if (builder.ExecutionContext.IsRunMode)
+{
+    webBff
+        .WithEnvironment("Frontend__DevServerUrl", webUi.GetEndpoint("https"))
+        .WaitFor(webUi);
+}
+
+identityApi
+    .WithEnvironment("Clients__WebBff__BaseUrl", webBff.GetEndpoint("https"))
+    .WithEnvironment("Clients__WebBff__ClientId", webBffClientId)
+    .WithEnvironment("Clients__WebBff__ClientSecret", webBffClientSecret);
 
 IResourceBuilder<EFMigrationResource> identityUsersMigrations = identityApi
     .AddEFMigrations
@@ -38,9 +83,18 @@ IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityAp
 
 identityApi.WaitForCompletion(identityOperationalMigrations);
 
-builder.AddViteApp("web-ui", "../../Clients/Web.UI")
-    .WithBun()
-    .WithExternalHttpEndpoints();
+IResourceBuilder<EFMigrationResource> webBffSessionsMigrations = webBff
+    .AddEFMigrations
+    (
+        name: "web-bff-sessions-migrations",
+        dbContextTypeName: "Duende.Bff.EntityFramework.SessionDbContext"
+    )
+    .WithMigrationOutputDirectory("Database/Migrations/SessionDb")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb)
+    .RunDatabaseUpdateOnStart();
+
+webBff.WaitForCompletion(webBffSessionsMigrations);
 
 await builder
     .Build()
