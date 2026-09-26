@@ -10,9 +10,40 @@ IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("id
 
 IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-bff-db");
 
-IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api")
+IResourceBuilder<ParameterResource> webBffClientSecret = builder.AddParameter
+(
+    "web-bff-client-secret",
+    new GenerateParameterDefault { MinLength = 32 },
+    secret: true,
+    persist: true
+);
+
+const string webBffClientId = "web-bff";
+
+IResourceBuilder<ProjectResource> identityApi = builder.AddProject<Projects.Identity_API>("identity-api", "https")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
     .WithReference(identityDb)
     .WaitFor(identityDb);
+
+IResourceBuilder<ProjectResource> webBff = builder.AddProject<Projects.Web_BFF>("web-bff", "https")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/health")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb)
+    .WithEnvironment("Oidc__Authority", identityApi.GetEndpoint("https"))
+    .WithEnvironment("Oidc__ClientId", webBffClientId)
+    .WithEnvironment("Oidc__ClientSecret", webBffClientSecret)
+    .WaitFor(identityApi);
+
+identityApi
+    .WithEnvironment("Clients__WebBff__BaseUrl", webBff.GetEndpoint("https"))
+    .WithEnvironment("Clients__WebBff__ClientId", webBffClientId)
+    .WithEnvironment("Clients__WebBff__ClientSecret", webBffClientSecret);
+
+builder.AddViteApp("web-ui", "../../Clients/Web.UI")
+    .WithBun()
+    .WithExternalHttpEndpoints();
 
 IResourceBuilder<EFMigrationResource> identityUsersMigrations = identityApi
     .AddEFMigrations
@@ -40,13 +71,18 @@ IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityAp
 
 identityApi.WaitForCompletion(identityOperationalMigrations);
 
-builder.AddViteApp("web-ui", "../../Clients/Web.UI")
-    .WithBun()
-    .WithExternalHttpEndpoints();
-
-builder.AddProject<Projects.Web_BFF>("web-bff")
+IResourceBuilder<EFMigrationResource> webBffSessionsMigrations = webBff
+    .AddEFMigrations
+    (
+        name: "web-bff-sessions-migrations",
+        dbContextTypeName: "Duende.Bff.EntityFramework.SessionDbContext"
+    )
+    .WithMigrationOutputDirectory("Database/Migrations/SessionDb")
     .WithReference(webBffDb)
-    .WaitFor(webBffDb);
+    .WaitFor(webBffDb)
+    .RunDatabaseUpdateOnStart();
+
+webBff.WaitForCompletion(webBffSessionsMigrations);
 
 await builder
     .Build()
