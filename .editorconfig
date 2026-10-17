@@ -29,7 +29,7 @@ indent_size = 4
 tab_width = 4
 
 # New line preferences
-insert_final_newline = false
+insert_final_newline = true
 
 #### .NET Coding Conventions ####
 [*.{cs,vb}]
@@ -387,5 +387,14 @@ dotnet_naming_style.s_camelcase.required_suffix =
 dotnet_naming_style.s_camelcase.word_separator = 
 dotnet_naming_style.s_camelcase.capitalization = camel_case
 
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+
 # CA1711: Identifiers should not have incorrect suffix
 dotnet_diagnostic.CA1711.severity = none
+
+# CA1724: Type names should not match namespaces
+dotnet_diagnostic.CA1724.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
