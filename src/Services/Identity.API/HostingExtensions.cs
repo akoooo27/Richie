@@ -11,6 +11,8 @@ using Identity.API.Database;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
+using Resend;
+
 using Richie.ServiceDefaults;
 
 namespace Identity.API;
@@ -21,9 +23,10 @@ internal static class HostingExtensions
     {
         builder.AddServiceDefaults();
 
+        builder.Configuration.AddAzureKeyVaultSecrets("key-vault");
+
         string? dbConnectionString = builder.Configuration.GetConnectionString("identity-db");
 
-        // Duende Storage (User Management) resolves an unkeyed NpgsqlDataSource from DI.
         builder.AddNpgsqlDataSource("identity-db");
 
         builder.Services
@@ -75,6 +78,11 @@ internal static class HostingExtensions
             });
 
         builder.EnrichNpgsqlDbContext<PersistedGrantDbContext>();
+
+        builder.Services.AddResend(options =>
+        {
+            options.ApiToken = builder.Configuration["Resend:ApiKey"]!;
+        });
 
         builder.Services
             .AddDataProtection()

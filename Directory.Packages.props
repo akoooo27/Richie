@@ -33,6 +33,10 @@
     <PackageVersion Include="Duende.UserManagement" Version="1.0.0" />
     <PackageVersion Include="Duende.UserManagement.IdentityServer8" Version="1.0.0" />
     
+    <PackageVersion Include="Aspire.Azure.Security.KeyVault" Version="13.6.2" />
+    
+    <PackageVersion Include="Resend" Version="0.24.0" />
+    
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.11.0" />
