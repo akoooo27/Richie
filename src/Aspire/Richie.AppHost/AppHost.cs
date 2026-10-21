@@ -1,3 +1,4 @@
+using Aspire.Hosting.Azure;
 using Aspire.Hosting.EntityFrameworkCore;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
@@ -9,9 +10,12 @@ IResourceBuilder<PostgresServerResource> postgres = builder
 
 IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identity-db");
 
+IResourceBuilder<AzureKeyVaultResource> keyVault = builder.AddAzureKeyVault("key-vault");
+
 IResourceBuilder<ProjectResource> identityApi = builder
     .AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
+    .WithReference(keyVault)
     .WaitFor(identityDb);
 
 IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityApi

@@ -18,6 +18,10 @@
     
     <PackageReference Include="Duende.UserManagement" />
     <PackageReference Include="Duende.UserManagement.IdentityServer8" />
+    
+    <PackageReference Include="Aspire.Azure.Security.KeyVault" />
+    
+    <PackageReference Include="Resend" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,6 +12,7 @@
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.6.2" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.2" />
     <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.6.2-preview.1.26519.11" />
+    <PackageVersion Include="Aspire.Hosting.Azure.KeyVault" Version="13.6.2" />
     
     <!-- Domain -->
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
@@ -31,6 +32,10 @@
     
     <PackageVersion Include="Duende.UserManagement" Version="1.0.0" />
     <PackageVersion Include="Duende.UserManagement.IdentityServer8" Version="1.0.0" />
+    
+    <PackageVersion Include="Aspire.Azure.Security.KeyVault" Version="13.6.2" />
+    
+    <PackageVersion Include="Resend" Version="0.24.0" />
     
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
