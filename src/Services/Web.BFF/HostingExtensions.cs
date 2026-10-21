@@ -1,4 +1,5 @@
 using Duende.Bff;
+using Duende.Bff.DynamicFrontends;
 using Duende.Bff.EntityFramework;
 
 using Microsoft.AspNetCore.DataProtection;
@@ -51,6 +52,11 @@ internal static class HostingExtensions
                 options.Cookie.Name = "__Host-bff";
                 options.Cookie.SameSite = SameSiteMode.Strict;
             })
+            .AddFrontends
+            (
+                new BffFrontend(BffFrontendName.Parse("web"))
+                    .WithProxiedStaticAssets(new Uri(builder.Configuration["services:web:http:0"]!))
+            )
             .AddEntityFrameworkServerSideSessions(options =>
             {
                 options

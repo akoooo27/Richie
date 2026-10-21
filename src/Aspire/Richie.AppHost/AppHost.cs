@@ -1,5 +1,6 @@
 using Aspire.Hosting.Azure;
 using Aspire.Hosting.EntityFrameworkCore;
+using Aspire.Hosting.JavaScript;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
@@ -28,12 +29,17 @@ IResourceBuilder<ProjectResource> identityApi = builder
     .WithReference(keyVault)
     .WaitFor(identityDb);
 
+IResourceBuilder<ViteAppResource> web = builder.AddViteApp("web", "../../Clients/web");
+
 IResourceBuilder<ProjectResource> webBff = builder
     .AddProject<Projects.Web_BFF>("web-bff")
     .WithReference(webBffDb)
     .WithReference(identityApi)
+    .WithReference(web.GetEndpoint("http"))
     .WithEnvironment("Oidc__ClientSecret", webBffClientSecret)
-    .WaitFor(webBffDb);
+    .WithExternalHttpEndpoints()
+    .WaitFor(webBffDb)
+    .WaitFor(web);
 
 identityApi
     .WithEnvironment("Clients__WebBff__BaseUrl", webBff.GetEndpoint("https"))
@@ -64,11 +70,6 @@ IResourceBuilder<EFMigrationResource> webBffSessionMigrations = webBff
     .RunDatabaseUpdateOnStart();
 
 webBff.WaitForCompletion(webBffSessionMigrations);
-
-builder
-    .AddViteApp("web", "../../Clients/web")
-    .WithReference(identityApi)
-    .WithExternalHttpEndpoints();
 
 await builder
     .Build()
