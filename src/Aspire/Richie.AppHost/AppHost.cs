@@ -31,6 +31,11 @@ IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityAp
 
 identityApi.WaitForCompletion(identityOperationalMigrations);
 
+builder
+    .AddViteApp("web", "../../Clients/web")
+    .WithReference(identityApi)
+    .WithExternalHttpEndpoints();
+
 await builder
     .Build()
     .RunAsync();
