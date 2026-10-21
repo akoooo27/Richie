@@ -50,7 +50,7 @@ internal static class HostingExtensions
             .ConfigureCookies(options =>
             {
                 options.Cookie.Name = "__Host-bff";
-                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SameSite = SameSiteMode.Lax;
             })
             .AddFrontends
             (
