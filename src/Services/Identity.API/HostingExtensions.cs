@@ -69,6 +69,7 @@ internal static class HostingExtensions
                 options.TokenCleanupBatchSize = 100;
             })
             .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
+            .AddInMemoryClients(IdentityServerConfiguration.GetClients(builder.Configuration))
             .AddUserManagement(userManagement =>
             {
                 userManagement.AddPostgreSqlStore(postgresOptions =>
