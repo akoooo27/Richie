@@ -79,10 +79,7 @@ internal static class HostingExtensions
 
         builder.EnrichNpgsqlDbContext<PersistedGrantDbContext>();
 
-        builder.Services.AddResend(options =>
-        {
-            options.ApiToken = builder.Configuration["Resend:ApiKey"]!;
-        });
+        builder.Services.AddResend(builder.Configuration["Resend:ApiKey"]!);
 
         builder.Services
             .AddDataProtection()
