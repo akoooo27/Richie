@@ -480,3 +480,9 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# JavaScript clients (src/Clients)
+src/Clients/**/dist/
+src/Clients/**/.tanstack/
+src/Clients/**/*.local
+src/Clients/**/*.log*
