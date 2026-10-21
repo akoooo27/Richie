@@ -1,0 +1,7 @@
+{
+  "enabledPlugins": {
+    "dotnet-skills@dotnet-skills": true,
+    "duende-skills@duende-skills": true,
+    "superpowers@anthropic-plugin-directory": true
+  }
+}
