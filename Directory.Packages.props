@@ -11,6 +11,9 @@
     <!-- Aspire hosting -->
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.6.2" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.2" />
+    
+    <!-- Domain -->
+    <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
    
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
