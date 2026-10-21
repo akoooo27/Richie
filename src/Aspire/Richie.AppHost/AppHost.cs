@@ -14,11 +14,30 @@ IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-
 
 IResourceBuilder<AzureKeyVaultResource> keyVault = builder.AddAzureKeyVault("key-vault");
 
+IResourceBuilder<ParameterResource> webBffClientSecret = builder.AddParameter
+(
+    name: "web-bff-client-secret",
+    value: new GenerateParameterDefault { MinLength = 32 },
+    secret: true,
+    persist: true
+);
+
 IResourceBuilder<ProjectResource> identityApi = builder
     .AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
     .WithReference(keyVault)
     .WaitFor(identityDb);
+
+IResourceBuilder<ProjectResource> webBff = builder
+    .AddProject<Projects.Web_BFF>("web-bff")
+    .WithReference(webBffDb)
+    .WithReference(identityApi)
+    .WithEnvironment("Oidc__ClientSecret", webBffClientSecret)
+    .WaitFor(webBffDb);
+
+identityApi
+    .WithEnvironment("Clients__WebBff__BaseUrl", webBff.GetEndpoint("https"))
+    .WithEnvironment("Clients__WebBff__Secret", webBffClientSecret);
 
 IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityApi
     .AddEFMigrations
@@ -32,11 +51,6 @@ IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityAp
     .RunDatabaseUpdateOnStart();
 
 identityApi.WaitForCompletion(identityOperationalMigrations);
-
-IResourceBuilder<ProjectResource> webBff = builder
-    .AddProject<Projects.Web_BFF>("web-bff")
-    .WithReference(webBffDb)
-    .WaitFor(webBffDb);
 
 IResourceBuilder<EFMigrationResource> webBffSessionMigrations = webBff
     .AddEFMigrations

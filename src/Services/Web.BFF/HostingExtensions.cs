@@ -3,6 +3,7 @@ using Duende.Bff.EntityFramework;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 using Richie.ServiceDefaults;
 
@@ -22,6 +23,28 @@ internal static class HostingExtensions
             .AddBff(options =>
             {
                 options.SessionCleanupInterval = TimeSpan.FromMinutes(10);
+            })
+            .ConfigureOpenIdConnect(options =>
+            {
+                options.Authority = builder.Configuration["services:identity-api:https:0"];
+                options.ClientId = "web-bff";
+                options.ClientSecret = builder.Configuration["Oidc:ClientSecret"];
+
+                options.ResponseType = OpenIdConnectResponseType.Code;
+                options.ResponseMode = OpenIdConnectResponseMode.Query;
+
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.MapInboundClaims = false;
+
+                options.SaveTokens = true;
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("offline_access");
+
+                options.TokenValidationParameters.NameClaimType = "name";
+                options.TokenValidationParameters.RoleClaimType = "role";
             })
             .ConfigureCookies(options =>
             {
