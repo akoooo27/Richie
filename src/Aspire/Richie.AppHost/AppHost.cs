@@ -33,9 +33,23 @@ IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityAp
 
 identityApi.WaitForCompletion(identityOperationalMigrations);
 
-builder.AddProject<Projects.Web_BFF>("web-bff")
+IResourceBuilder<ProjectResource> webBff = builder
+    .AddProject<Projects.Web_BFF>("web-bff")
     .WithReference(webBffDb)
     .WaitFor(webBffDb);
+
+IResourceBuilder<EFMigrationResource> webBffSessionMigrations = webBff
+    .AddEFMigrations
+    (
+        name: "web-bff-session-migrations",
+        dbContextTypeName: "Duende.Bff.EntityFramework.SessionDbContext",
+        configureToolResource: tool => tool.WithToolVersion("10.0.13")
+    )
+    .WithMigrationOutputDirectory("Database/Migrations/Sessions")
+    .WaitFor(webBffDb)
+    .RunDatabaseUpdateOnStart();
+
+webBff.WaitForCompletion(webBffSessionMigrations);
 
 builder
     .AddViteApp("web", "../../Clients/web")
