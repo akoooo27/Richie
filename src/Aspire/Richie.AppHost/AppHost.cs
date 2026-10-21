@@ -10,6 +10,8 @@ IResourceBuilder<PostgresServerResource> postgres = builder
 
 IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identity-db");
 
+IResourceBuilder<PostgresDatabaseResource> webBffDb = postgres.AddDatabase("web-bff-db");
+
 IResourceBuilder<AzureKeyVaultResource> keyVault = builder.AddAzureKeyVault("key-vault");
 
 IResourceBuilder<ProjectResource> identityApi = builder
@@ -30,6 +32,10 @@ IResourceBuilder<EFMigrationResource> identityOperationalMigrations = identityAp
     .RunDatabaseUpdateOnStart();
 
 identityApi.WaitForCompletion(identityOperationalMigrations);
+
+builder.AddProject<Projects.Web_BFF>("web-bff")
+    .WithReference(webBffDb)
+    .WaitFor(webBffDb);
 
 builder
     .AddViteApp("web", "../../Clients/web")

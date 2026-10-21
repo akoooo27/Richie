@@ -38,6 +38,11 @@
     
     <PackageVersion Include="Resend" Version="0.24.0" />
     
+    <!-- BFF -->
+    <PackageVersion Include="Duende.BFF" Version="4.3.2" />
+    <PackageVersion Include="Duende.BFF.EntityFramework" Version="4.3.2" />
+    <PackageVersion Include="Duende.BFF.Yarp" Version="4.3.2" />
+    
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.11.0" />
