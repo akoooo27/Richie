@@ -1,5 +1,9 @@
+using Duende.IdentityServer;
 using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Options;
+using Duende.Storage.PostgreSql;
+using Duende.Storage.Schema;
+using Duende.UserManagement;
 
 using Identity.API.Configuration;
 using Identity.API.Database;
@@ -19,9 +23,15 @@ internal static class HostingExtensions
 
         string? dbConnectionString = builder.Configuration.GetConnectionString("identity-db");
 
+        // Duende Storage (User Management) resolves an unkeyed NpgsqlDataSource from DI.
+        builder.AddNpgsqlDataSource("identity-db");
+
         builder.Services
             .AddIdentityServer(options =>
             {
+                options.UserInteraction.LoginUrl = "/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Account/Logout";
+
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -31,15 +41,14 @@ internal static class HostingExtensions
             {
                 options.DefaultSchema = Schemas.Operational;
 
-
-                options.PersistedGrants = new TableConfiguration(OperationalTables.PersistedGrants);
-                options.DeviceFlowCodes = new TableConfiguration(OperationalTables.DeviceCodes);
-                options.Keys = new TableConfiguration(OperationalTables.Keys);
-                options.ServerSideSessions = new TableConfiguration(OperationalTables.ServerSideSessions);
-                options.PushedAuthorizationRequests = new TableConfiguration(OperationalTables.PushedAuthorizationRequests);
-                options.SamlSigninStates = new TableConfiguration(OperationalTables.SamlSigninStates);
-                options.SamlLogoutSessions = new TableConfiguration(OperationalTables.SamlLogoutSessions);
-                options.SamlLogoutSessionRequestIndices = new TableConfiguration(OperationalTables.SamlLogoutSessionRequestIndices);
+                options.PersistedGrants = new TableConfiguration("persisted_grants");
+                options.DeviceFlowCodes = new TableConfiguration("device_codes");
+                options.Keys = new TableConfiguration("keys");
+                options.ServerSideSessions = new TableConfiguration("server_side_sessions");
+                options.PushedAuthorizationRequests = new TableConfiguration("pushed_authorization_requests");
+                options.SamlSigninStates = new TableConfiguration("saml_signin_states");
+                options.SamlLogoutSessions = new TableConfiguration("saml_logout_sessions");
+                options.SamlLogoutSessionRequestIndices = new TableConfiguration("saml_logout_session_request_indices");
 
                 options.ConfigureDbContext = dbContext =>
                 {
@@ -56,7 +65,14 @@ internal static class HostingExtensions
                 options.TokenCleanupInterval = 3600;
                 options.TokenCleanupBatchSize = 100;
             })
-            .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources());
+            .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
+            .AddUserManagement(userManagement =>
+            {
+                userManagement.AddPostgreSqlStore(postgresOptions =>
+                {
+                    postgresOptions.SchemaName = Schemas.UserManagement;
+                });
+            });
 
         builder.EnrichNpgsqlDbContext<PersistedGrantDbContext>();
 
@@ -73,6 +89,17 @@ internal static class HostingExtensions
 
         app.MapDefaultEndpoints();
 
+        app.MapUserManagement();
+
         return app;
+    }
+
+    public static async Task MigrateUserManagementSchemaAsync(this WebApplication app, CancellationToken cancellationToken = default)
+    {
+        using IServiceScope scope = app.Services.CreateScope();
+
+        IDatabaseSchema schema = scope.ServiceProvider.GetRequiredService<IDatabaseSchema>();
+
+        await schema.MigrateAsync(cancellationToken);
     }
 }

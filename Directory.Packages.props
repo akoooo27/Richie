@@ -21,6 +21,7 @@
     
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
     
+    <PackageVersion Include="Aspire.Npgsql" Version="13.6.2" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.2" />
 
     <PackageVersion Include="Duende.Storage.PostgreSql" Version="1.1.1" />

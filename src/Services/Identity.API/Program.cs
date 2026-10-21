@@ -6,4 +6,9 @@ WebApplication app = builder
     .ConfigureServices()
     .ConfigurePipeline();
 
+if (app.Environment.IsDevelopment())
+{
+    await app.MigrateUserManagementSchemaAsync();
+}
+
 await app.RunAsync();
