@@ -27,6 +27,8 @@ internal static class HostingExtensions
     {
         builder.AddServiceDefaults();
 
+        builder.Services.AddRazorPages();
+
         builder.Configuration.AddAzureKeyVaultSecrets("key-vault");
 
         string? dbConnectionString = builder.Configuration.GetConnectionString("identity-db");
@@ -106,7 +108,17 @@ internal static class HostingExtensions
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        app.UseRouting();
+
         app.UseIdentityServer();
+
+        app.UseAuthorization();
+
+        app.MapStaticAssets();
+
+        app
+            .MapRazorPages()
+            .WithStaticAssets();
 
         app.MapDefaultEndpoints();
 
