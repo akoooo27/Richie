@@ -396,8 +396,12 @@ dotnet_diagnostic.CA1711.severity = none
 # CA1724: Type names should not match namespaces
 dotnet_diagnostic.CA1724.severity = none
 
+# CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = none
+
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
+
 #### EF Core migrations are tool-generated; exclude them from analyzers ####
 [**/Migrations/**.cs]
 generated_code = true

@@ -4,7 +4,9 @@ using Duende.IdentityServer.EntityFramework.Options;
 using Duende.Storage.PostgreSql;
 using Duende.Storage.Schema;
 using Duende.UserManagement;
+using Duende.UserManagement.Authentication.Otp;
 
+using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
 using Identity.API.Database;
 
@@ -76,11 +78,22 @@ internal static class HostingExtensions
                 {
                     postgresOptions.SchemaName = Schemas.UserManagement;
                 });
+
+                userManagement.Authentication(auth =>
+                {
+                    auth.Services.AddTransient<IOtpDispatcher, ResendOtpDispatcher>();
+                });
             });
 
         builder.EnrichNpgsqlDbContext<PersistedGrantDbContext>();
 
         builder.Services.AddResend(builder.Configuration["Resend:ApiKey"]!);
+
+        builder.Services
+            .AddOptions<ResendOtpDispatcherOptions>()
+            .Bind(builder.Configuration.GetSection(ResendOtpDispatcherOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         builder.Services
             .AddDataProtection()
