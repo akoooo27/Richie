@@ -11,6 +11,7 @@ using Duende.UserManagement.Profiles;
 using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
 using Identity.API.Database;
+using Identity.API.Pages;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +28,10 @@ internal static class HostingExtensions
     {
         builder.AddServiceDefaults();
 
-        builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages(options =>
+        {
+            options.Conventions.ConfigureFilter(new SecurityHeadersAttribute());
+        });
 
         builder.Services.AddSingleton<OtpChallengeCookie>();
 
