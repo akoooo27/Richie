@@ -1,10 +1,12 @@
 using Duende.IdentityServer;
 using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Options;
+using Duende.Storage.EntityAttributeValue;
 using Duende.Storage.PostgreSql;
 using Duende.Storage.Schema;
 using Duende.UserManagement;
 using Duende.UserManagement.Authentication.Otp;
+using Duende.UserManagement.Profiles;
 
 using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
@@ -120,5 +122,18 @@ internal static class HostingExtensions
         IDatabaseSchema schema = scope.ServiceProvider.GetRequiredService<IDatabaseSchema>();
 
         await schema.MigrateAsync(cancellationToken);
+
+        IUserProfileSchemaAdmin profileSchemaAdmin = scope.ServiceProvider.GetRequiredService<IUserProfileSchemaAdmin>();
+
+        IReadOnlyDictionary<AttributeCode, AttributeDefinition> existingAttributes =
+            await profileSchemaAdmin.GetAllAttributeDefinitionsAsync(cancellationToken);
+
+        foreach (AttributeDefinition attribute in UserProfileAttributes.All.Where(a => !existingAttributes.ContainsKey(a.Code)))
+        {
+            if (!await profileSchemaAdmin.TryAddAttributeDefinitionAsync(attribute, cancellationToken))
+            {
+                throw new InvalidOperationException($"Failed to add the '{attribute.Code}' user profile attribute.");
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ internal sealed partial class ResendOtpDispatcher
 ) : IOtpDispatcher
 {
     private readonly ResendOtpDispatcherOptions _options = options.Value;
-    
+
     public bool CanDispatch(OtpAddress address) =>
         address.Channel == OtpChannel.Email && address.SubjectId is EmailAddress;
 
@@ -76,7 +76,7 @@ internal sealed partial class ResendOtpDispatcher
             throw;
         }
     }
-    
+
     [LoggerMessage(Level = LogLevel.Information, Message = "OTP email {EmailId} accepted by Resend")]
     private partial void LogOtpEmailSent(Guid emailId);
 
