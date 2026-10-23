@@ -29,6 +29,8 @@ internal static class HostingExtensions
 
         builder.Services.AddRazorPages();
 
+        builder.Services.AddSingleton<OtpChallengeCookie>();
+
         builder.Configuration.AddAzureKeyVaultSecrets("key-vault");
 
         string? dbConnectionString = builder.Configuration.GetConnectionString("identity-db");
@@ -40,6 +42,7 @@ internal static class HostingExtensions
             {
                 options.UserInteraction.LoginUrl = "/Account/Login";
                 options.UserInteraction.LogoutUrl = "/Account/Logout";
+                options.UserInteraction.CreateAccountUrl = "/Account/Create";
 
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
