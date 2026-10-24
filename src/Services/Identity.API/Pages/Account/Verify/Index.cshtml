@@ -1,0 +1,46 @@
+@page
+@model Identity.API.Pages.Account.Verify.Index
+@{
+    ViewData["Title"] = "Check your email";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Check your email</h1>
+        <p class="card-description">
+            We sent an 8-character code to <strong>@Model.View.Email</strong>. It expires in 5 minutes.
+        </p>
+    </div>
+
+    <div class="card-content">
+        @if (Model.StatusMessage is not null)
+        {
+            <div class="alert" role="status">@Model.StatusMessage</div>
+        }
+
+        <form id="verify-form" class="form" asp-page="/Account/Verify/Index" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-destructive" role="alert"></div>
+            <input type="hidden" asp-for="Input.ReturnUrl" />
+
+            <div class="field">
+                <label asp-for="Input.Code" class="label"></label>
+                <input asp-for="Input.Code" class="input input-code"
+                       autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" maxlength="9" autofocus />
+                <span asp-validation-for="Input.Code"></span>
+            </div>
+
+            <button type="submit" class="button">Verify</button>
+        </form>
+    </div>
+
+    <p class="card-footer">
+        Didn't get a code?
+        <button type="submit" form="verify-form" class="link" asp-page="/Account/Verify/Index" asp-page-handler="Resend" formnovalidate>
+            Send a new code
+        </button>
+    </p>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
