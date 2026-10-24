@@ -9,11 +9,11 @@
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.35.0.4138" />
     
     <!-- Aspire hosting -->
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.6.2" />
-    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.2" />
-    <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.6.2-preview.1.26519.11" />
-    <PackageVersion Include="Aspire.Hosting.Azure.KeyVault" Version="13.6.2" />
-    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.6.2" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.6.4-preview.1.26523.11" />
+    <PackageVersion Include="Aspire.Hosting.Azure.KeyVault" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.6.4" />
     
     <!-- Domain -->
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
@@ -23,8 +23,8 @@
     
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
     
-    <PackageVersion Include="Aspire.Npgsql" Version="13.6.2" />
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.2" />
+    <PackageVersion Include="Aspire.Npgsql" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.4" />
 
     <PackageVersion Include="Duende.Storage.PostgreSql" Version="1.1.1" />
     
@@ -34,7 +34,7 @@
     <PackageVersion Include="Duende.UserManagement" Version="1.0.0" />
     <PackageVersion Include="Duende.UserManagement.IdentityServer8" Version="1.0.0" />
     
-    <PackageVersion Include="Aspire.Azure.Security.KeyVault" Version="13.6.2" />
+    <PackageVersion Include="Aspire.Azure.Security.KeyVault" Version="13.6.4" />
     
     <PackageVersion Include="Resend" Version="0.24.0" />
     
