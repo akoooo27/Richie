@@ -3,20 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
     <title>@ViewData["Title"] · Richie</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/plus-jakarta-sans/index.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body class="bg-body-tertiary">
-    <main class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-10 col-md-7 col-lg-5">
-                @RenderBody()
-            </div>
+<body>
+    <main class="page">
+        <div class="page-content">
+            <p class="brand">Richie</p>
+            @RenderBody()
         </div>
     </main>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

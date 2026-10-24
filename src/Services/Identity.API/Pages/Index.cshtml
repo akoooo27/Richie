@@ -1,0 +1,19 @@
+@page
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="card">
+    <div class="card-header">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <h1 class="card-title">You're signed in</h1>
+            <p class="card-description">Signed in as @User.Identity.Name. You can close this tab and go back to Richie.</p>
+        }
+        else
+        {
+            <h1 class="card-title">Welcome to Richie</h1>
+            <p class="card-description">Open the Richie app to sign in.</p>
+        }
+    </div>
+</div>
