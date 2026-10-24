@@ -9,7 +9,6 @@ internal sealed class SecurityHeadersAttribute : ActionFilterAttribute
 {
     private const string ContentSecurityPolicy =
         "default-src 'self'; " +
-        "img-src 'self' data:; " +
         "object-src 'none'; " +
         "frame-ancestors 'none'; " +
         "sandbox allow-forms allow-same-origin allow-scripts; " +
