@@ -53,6 +53,7 @@ internal static class HostingExtensions
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             })
+            .AddServerSideSessions()
             .AddOperationalStore(options =>
             {
                 options.DefaultSchema = Schemas.Operational;
