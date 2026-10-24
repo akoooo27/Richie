@@ -1,0 +1,20 @@
+@page
+@model Identity.API.Pages.Account.Logout.Index
+@{
+    ViewData["Title"] = "Sign out";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Sign out</h1>
+        <p class="card-description">Do you want to sign out of Richie?</p>
+    </div>
+
+    <div class="card-content">
+        <form class="form" asp-page="/Account/Logout/Index" method="post">
+            <input type="hidden" asp-for="LogoutId" />
+
+            <button type="submit" class="button">Sign out</button>
+        </form>
+    </div>
+</div>

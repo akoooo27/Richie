@@ -1,0 +1,26 @@
+{
+  "version": "3.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "aspnet-client-validation@0.11.1",
+      "destination": "wwwroot/lib/aspnet-client-validation",
+      "files": [
+        "dist/aspnet-validation.min.js",
+        "dist/aspnet-validation.min.js.map"
+      ]
+    },
+    {
+      "library": "@fontsource-variable/plus-jakarta-sans@5.3.0",
+      "destination": "wwwroot/lib/plus-jakarta-sans",
+      "files": [
+        "index.css",
+        "files/plus-jakarta-sans-cyrillic-ext-wght-normal.woff2",
+        "files/plus-jakarta-sans-latin-ext-wght-normal.woff2",
+        "files/plus-jakarta-sans-latin-wght-normal.woff2",
+        "files/plus-jakarta-sans-vietnamese-wght-normal.woff2",
+        "LICENSE"
+      ]
+    }
+  ]
+}

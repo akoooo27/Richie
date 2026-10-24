@@ -1,0 +1,42 @@
+@page
+@model Identity.API.Pages.Account.Create.Index
+@{
+    ViewData["Title"] = "Create account";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Create your Richie account</h1>
+        <p class="card-description">We'll email you a code to confirm your address.</p>
+    </div>
+
+    <div class="card-content">
+        <form class="form" asp-page="/Account/Create/Index" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-destructive" role="alert"></div>
+            <input type="hidden" asp-for="Input.ReturnUrl" />
+
+            <div class="field">
+                <label asp-for="Input.Name" class="label"></label>
+                <input asp-for="Input.Name" class="input" autocomplete="name" autofocus />
+                <span asp-validation-for="Input.Name"></span>
+            </div>
+
+            <div class="field">
+                <label asp-for="Input.Email" class="label"></label>
+                <input asp-for="Input.Email" class="input" placeholder="you@example.com" autocomplete="email" />
+                <span asp-validation-for="Input.Email"></span>
+            </div>
+
+            <button type="submit" class="button">Send code</button>
+        </form>
+    </div>
+
+    <p class="card-footer">
+        Already have an account?
+        <a class="link" asp-page="/Account/Login/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">Sign in</a>
+    </p>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

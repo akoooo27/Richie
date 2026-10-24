@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>@ViewData["Title"] · Richie</title>
+    <link rel="stylesheet" href="~/lib/plus-jakarta-sans/index.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <main class="page">
+        <div class="page-content">
+            <p class="brand">Richie</p>
+            @RenderBody()
+        </div>
+    </main>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

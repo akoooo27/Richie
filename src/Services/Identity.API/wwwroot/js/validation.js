@@ -1,0 +1,1 @@
+new aspnetValidation.ValidationService().bootstrap();

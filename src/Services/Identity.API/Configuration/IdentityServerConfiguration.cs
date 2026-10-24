@@ -10,7 +10,8 @@ internal static class IdentityServerConfiguration
         return new List<IdentityResource>
         {
             new IdentityResources.OpenId(),
-            new IdentityResources.Profile()
+            new IdentityResources.Profile(),
+            new IdentityResources.Email()
         };
     }
 
@@ -38,7 +39,8 @@ internal static class IdentityServerConfiguration
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile
+                    IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.Email
                 },
 
                 RequireConsent = false

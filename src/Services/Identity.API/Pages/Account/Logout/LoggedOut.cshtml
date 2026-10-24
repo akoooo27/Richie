@@ -1,0 +1,39 @@
+@page
+@model Identity.API.Pages.Account.Logout.LoggedOut
+@{
+    ViewData["Title"] = "Signed out";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">You're signed out</h1>
+
+        @if (Model.View.PostLogoutRedirectUri is not null)
+        {
+            <p class="card-description">Taking you back to @Model.View.ClientName…</p>
+        }
+        else
+        {
+            <p class="card-description">You can close this tab.</p>
+        }
+    </div>
+
+    @if (Model.View.PostLogoutRedirectUri is not null)
+    {
+        <div class="card-content">
+            <a class="button" href="@Model.View.PostLogoutRedirectUri" data-post-logout-redirect>Return to @Model.View.ClientName</a>
+        </div>
+    }
+</div>
+
+@if (Model.View.SignOutIframeUrl is not null)
+{
+    <iframe hidden title="Sign out" src="@Model.View.SignOutIframeUrl"></iframe>
+}
+
+@section Scripts {
+    @if (Model.View.PostLogoutRedirectUri is not null)
+    {
+        <script src="~/js/signout-redirect.js"></script>
+    }
+}

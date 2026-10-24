@@ -1,0 +1,31 @@
+@page
+@model Identity.API.Pages.Home.Error.Index
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">Something went wrong</h1>
+        <p class="card-description">We couldn't complete your request. Go back to Richie and try again.</p>
+    </div>
+
+    @if (Model.Error is not null)
+    {
+        <div class="card-content">
+            <div class="alert alert-destructive" role="alert">
+                <p class="alert-title">@Model.Error.Error</p>
+
+                @if (Model.Error.ErrorDescription is not null)
+                {
+                    <p class="alert-description">@Model.Error.ErrorDescription</p>
+                }
+            </div>
+        </div>
+
+        @if (Model.Error.RequestId is not null)
+        {
+            <p class="card-footer">Request ID: @Model.Error.RequestId</p>
+        }
+    }
+</div>

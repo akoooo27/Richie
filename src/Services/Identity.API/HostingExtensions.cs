@@ -1,14 +1,17 @@
 using Duende.IdentityServer;
 using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Options;
+using Duende.Storage.EntityAttributeValue;
 using Duende.Storage.PostgreSql;
 using Duende.Storage.Schema;
 using Duende.UserManagement;
 using Duende.UserManagement.Authentication.Otp;
+using Duende.UserManagement.Profiles;
 
 using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
 using Identity.API.Database;
+using Identity.API.Pages;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +28,13 @@ internal static class HostingExtensions
     {
         builder.AddServiceDefaults();
 
+        builder.Services.AddRazorPages(options =>
+        {
+            options.Conventions.ConfigureFilter(new SecurityHeadersAttribute());
+        });
+
+        builder.Services.AddSingleton<OtpChallengeCookie>();
+
         builder.Configuration.AddAzureKeyVaultSecrets("key-vault");
 
         string? dbConnectionString = builder.Configuration.GetConnectionString("identity-db");
@@ -36,12 +46,14 @@ internal static class HostingExtensions
             {
                 options.UserInteraction.LoginUrl = "/Account/Login";
                 options.UserInteraction.LogoutUrl = "/Account/Logout";
+                options.UserInteraction.CreateAccountUrl = "/Account/Create";
 
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             })
+            .AddServerSideSessions()
             .AddOperationalStore(options =>
             {
                 options.DefaultSchema = Schemas.Operational;
@@ -104,7 +116,17 @@ internal static class HostingExtensions
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        app.UseRouting();
+
         app.UseIdentityServer();
+
+        app.UseAuthorization();
+
+        app.MapStaticAssets();
+
+        app
+            .MapRazorPages()
+            .WithStaticAssets();
 
         app.MapDefaultEndpoints();
 
@@ -120,5 +142,18 @@ internal static class HostingExtensions
         IDatabaseSchema schema = scope.ServiceProvider.GetRequiredService<IDatabaseSchema>();
 
         await schema.MigrateAsync(cancellationToken);
+
+        IUserProfileSchemaAdmin profileSchemaAdmin = scope.ServiceProvider.GetRequiredService<IUserProfileSchemaAdmin>();
+
+        IReadOnlyDictionary<AttributeCode, AttributeDefinition> existingAttributes =
+            await profileSchemaAdmin.GetAllAttributeDefinitionsAsync(cancellationToken);
+
+        foreach (AttributeDefinition attribute in UserProfileAttributes.All.Where(a => !existingAttributes.ContainsKey(a.Code)))
+        {
+            if (!await profileSchemaAdmin.TryAddAttributeDefinitionAsync(attribute, cancellationToken))
+            {
+                throw new InvalidOperationException($"Failed to add the '{attribute.Code}' user profile attribute.");
+            }
+        }
     }
 }
