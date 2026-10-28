@@ -3,11 +3,13 @@ IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(ar
 builder.AddAzureKeyVault("key-vault");
 
 IResourceBuilder<PostgresServerResource> postgres = builder
-    .AddPostgres("identity-db")
+    .AddPostgres("postgres")
     .WithPgWeb()
     .WithDataVolume();
 
 IResourceBuilder<PostgresDatabaseResource> identityDb = postgres.AddDatabase("identity-db");
+
+IResourceBuilder<PostgresDatabaseResource> userManagementDb = postgres.AddDatabase("user-management-db");
 
 builder
     .AddRabbitMQ("messaging")
@@ -21,7 +23,9 @@ builder
 
 builder.AddProject<Projects.Identity_API>("identity-api")
     .WithReference(identityDb)
-    .WaitFor(identityDb);
+    .WithReference(userManagementDb)
+    .WaitFor(identityDb)
+    .WaitFor(userManagementDb);
 
 await builder
     .Build()

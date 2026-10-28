@@ -19,6 +19,18 @@
     <!-- Domain -->
     <PackageVersion Include="MediatR.Contracts" Version="2.0.1" />
     
+    <!-- Infrastructure -->
+    <PackageVersion Include="Aspire.Npgsql" Version="13.6.4" />
+    
+    <PackageVersion Include="Duende.Storage" Version="2.0.0-preview.6" />
+    <PackageVersion Include="Duende.Storage.PostgreSql" Version="2.0.0-preview.6" />
+    
+    <PackageVersion Include="Duende.IdentityServer" Version="8.1.0-preview.6" />
+    <PackageVersion Include="Duende.IdentityServer.Storage" Version="8.1.0-preview.6" />
+    
+    <PackageVersion Include="Duende.UserManagement" Version="2.0.0-preview.6" />
+    <PackageVersion Include="Duende.UserManagement.IdentityServer8" Version="2.0.0-preview.6" />
+    
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.11.0" />
