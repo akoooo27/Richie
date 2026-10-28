@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "dotnet-skills@dotnet-skills": true,
+    "duende-skills@duende-skills": true
+  }
+}
