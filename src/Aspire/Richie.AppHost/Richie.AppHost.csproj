@@ -16,5 +16,9 @@
     <PackageReference Include="Aspire.Hosting.RabbitMQ" />
     <PackageReference Include="Aspire.Hosting.Redis" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Identity.API\Identity.API.csproj" />
+  </ItemGroup>
   
 </Project>
