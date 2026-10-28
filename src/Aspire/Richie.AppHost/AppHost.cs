@@ -1,5 +1,7 @@
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
+builder.AddAzureKeyVault("key-vault");
+
 builder
     .AddPostgres("identity-db")
     .WithPgWeb()
