@@ -4,6 +4,7 @@ using Duende.Bff.EntityFramework;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 using Richie.ServiceDefaults;
 
@@ -30,10 +31,36 @@ internal static class HostingExtensions
                 )
         );
 
+        string authority = builder.Configuration["Authentication:Oidc:Authority"] ??
+                           throw new InvalidOperationException("OIDC authority is not configured.");
+
+        string clientId = builder.Configuration["Authentication:Oidc:ClientId"] ??
+                          throw new InvalidOperationException("OIDC client ID is not configured.");
+
+        string clientSecret = builder.Configuration["Authentication:Oidc:ClientSecret"] ??
+                              throw new InvalidOperationException("OIDC client secret is not configured.");
+
         builder.Services
             .AddBff(options =>
             {
                 options.SessionCleanupInterval = TimeSpan.FromMinutes(5);
+            })
+            .ConfigureOpenIdConnect(options =>
+            {
+                options.Authority = authority;
+                options.ClientId = clientId;
+                options.ClientSecret = clientSecret;
+
+                options.ResponseType = OpenIdConnectResponseType.Code;
+                options.ResponseMode = OpenIdConnectResponseMode.Query;
+
+                options.SaveTokens = true;
+
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.MapInboundClaims = false;
+                options.DisableTelemetry = true;
+
+                options.Scope.Add(OpenIdConnectScope.OfflineAccess);
             })
             .AddServerSideSessions()
             .AddEntityFrameworkServerSideSessionsServices<SessionDbContext, IBffServicesBuilder>()
@@ -43,12 +70,7 @@ internal static class HostingExtensions
 
                 options.UserSessions = new TableConfiguration("user_sessions");
             })
-            .AddSessionCleanupBackgroundProcess()
-            .ConfigureCookies(options =>
-            {
-                options.Cookie.Name = "__Host-bff";
-                options.Cookie.SameSite = SameSiteMode.Lax;
-            });
+            .AddSessionCleanupBackgroundProcess();
 
         builder.Services.AddAuthorization();
 
@@ -67,10 +89,11 @@ internal static class HostingExtensions
         app.UseStaticFiles();
 
         app.UseHttpsRedirection();
+
+        app.UseRouting();
         app.UseAuthentication();
         app.UseBff();
         app.UseAuthorization();
-        app.MapBffManagementEndpoints();
 
         return app;
     }

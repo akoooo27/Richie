@@ -26,9 +26,10 @@ internal static class HostingExtensions
 
         builder.Services
             .AddIdentityServer()
+            .AddServerSideSessions()
             .AddInMemoryIdentityResources(IdentityServerConfiguration.GetIdentityResources())
             .AddInMemoryApiScopes(IdentityServerConfiguration.GetApiScopes())
-            .AddInMemoryClients(IdentityServerConfiguration.GetClients())
+            .AddInMemoryClients(IdentityServerConfiguration.GetClients(builder.Configuration))
             .AddStorage(storage => storage.AddPostgreSql(options => options.SchemaName = StorageInstances.SchemaName))
             .AddOperationalStorage()
             .AddStorage
