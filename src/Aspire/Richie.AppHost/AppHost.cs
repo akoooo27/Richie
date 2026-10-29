@@ -1,4 +1,5 @@
 using Aspire.Hosting.EntityFrameworkCore;
+using Aspire.Hosting.JavaScript;
 
 const string webBffClientId = "web-bff";
 
@@ -44,13 +45,19 @@ IResourceBuilder<ProjectResource> identityApi = builder
     .WithEnvironment("Clients__WebBff__ClientId", webBffClientId)
     .WithEnvironment("Clients__WebBff__ClientSecret", webBffClientSecret);
 
+IResourceBuilder<ViteAppResource> spa = builder
+    .AddViteApp("spa", "../../../frontend/apps/spa")
+    .WithPnpm();
+
 IResourceBuilder<ProjectResource> webBff = builder
     .AddProject<Projects.Web_BFF>("web-bff", launchProfileName: "https")
     .WithReference(webBffDb)
     .WaitFor(webBffDb)
+    .WaitFor(spa)
     .WithEnvironment("Authentication__Oidc__Authority", identityApi.GetEndpoint("https"))
     .WithEnvironment("Authentication__Oidc__ClientId", webBffClientId)
-    .WithEnvironment("Authentication__Oidc__ClientSecret", webBffClientSecret);
+    .WithEnvironment("Authentication__Oidc__ClientSecret", webBffClientSecret)
+    .WithEnvironment("Spa__DevServerUrl", spa.GetEndpoint("http"));
 
 identityApi.WithEnvironment("Clients__WebBff__BaseUrl", webBff.GetEndpoint("https"));
 
