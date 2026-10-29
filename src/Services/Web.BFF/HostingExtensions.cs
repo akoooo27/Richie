@@ -24,7 +24,10 @@ internal static class HostingExtensions
             SessionDbConnectionName,
             configureDbContextOptions: options => options
                 .UseSnakeCaseNamingConvention()
-                .UseNpgsql(npgsql => npgsql.MigrationsHistoryTable("__ef_migrations_history", Schemas.Bff))
+                .UseNpgsql(npgsql => npgsql
+                    .MigrationsHistoryTable("__ef_migrations_history", Schemas.Bff)
+                    .MigrationsAssembly(typeof(HostingExtensions).Assembly.GetName().Name)
+                )
         );
 
         builder.Services
