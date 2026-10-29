@@ -6,6 +6,7 @@
   </Folder>
   <Folder Name="/src/Services/">
     <Project Path="src/Services/Identity.API/Identity.API.csproj" />
+    <Project Path="src/Services/Web.BFF/Web.BFF.csproj" />
   </Folder>
   <Folder Name="/src/Shared/">
     <Project Path="src/Shared/SharedKernel/SharedKernel.csproj" />

@@ -14,9 +14,9 @@ internal static class StorageMigrations
 
         foreach (StorageInstanceId instanceId in StorageInstances.All)
         {
-            IStorageInstanceSchema schema = await schemaFactory.GetStorageInstanceSchema(instanceId, cancellationToken);
+            IStorageInstanceSchema schema = await schemaFactory.GetStorageInstanceSchema(instanceId, cancellationToken).ConfigureAwait(false);
 
-            await schema.MigrateAsync(cancellationToken);
+            await schema.MigrateAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

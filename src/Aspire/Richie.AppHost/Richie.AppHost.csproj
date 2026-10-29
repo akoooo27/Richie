@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Identity.API\Identity.API.csproj" />
+    <ProjectReference Include="..\..\Services\Web.BFF\Web.BFF.csproj" />
   </ItemGroup>
   
 </Project>

@@ -9,7 +9,7 @@ WebApplication app = builder
 
 if (app.Environment.IsDevelopment())
 {
-    await app.MigrateStorageAsync();
+    await app.MigrateStorageAsync().ConfigureAwait(false);
 }
 
 await app.RunAsync();
