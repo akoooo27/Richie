@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql" />
+    
+    <PackageReference Include="Duende.Storage" />
+    <PackageReference Include="Duende.Storage.PostgreSql" />
+    
+    <PackageReference Include="Duende.IdentityServer" />
+    <PackageReference Include="Duende.IdentityServer.Storage" />
+    
+    <PackageReference Include="Duende.UserManagement" />
+    <PackageReference Include="Duende.UserManagement.IdentityServer8" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Aspire\Richie.ServiceDefaults\Richie.ServiceDefaults.csproj" />
+  </ItemGroup>
+  
+</Project>

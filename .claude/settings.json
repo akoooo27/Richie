@@ -2,6 +2,7 @@
   "enabledPlugins": {
     "dotnet-skills@dotnet-skills": true,
     "duende-skills@duende-skills": true,
-    "pstack@cursor-plugins": true
+    "pstack@cursor-plugins": true,
+    "superpowers@anthropic-plugin-directory": true
   }
 }

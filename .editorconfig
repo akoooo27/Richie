@@ -395,3 +395,10 @@ dotnet_diagnostic.CA1724.severity = none
 
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
+
+#### Generated code ####
+
+# EF Core migrations are scaffolded; keep analyzers and style rules off them
+[**/Migrations/**.cs]
+generated_code = true
+dotnet_analyzer_diagnostic.severity = none

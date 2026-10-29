@@ -19,6 +19,28 @@
     <!-- Domain -->
     <PackageVersion Include="MediatR.Contracts" Version="2.0.1" />
     
+    <!-- Infrastructure -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14" />
+    
+    <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
+    
+    <PackageVersion Include="Aspire.Npgsql" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.4" />
+    
+    <PackageVersion Include="Duende.Storage" Version="2.0.0-preview.6" />
+    <PackageVersion Include="Duende.Storage.PostgreSql" Version="2.0.0-preview.6" />
+    
+    <PackageVersion Include="Duende.IdentityServer" Version="8.1.0-preview.6" />
+    <PackageVersion Include="Duende.IdentityServer.Storage" Version="8.1.0-preview.6" />
+    
+    <PackageVersion Include="Duende.UserManagement" Version="2.0.0-preview.6" />
+    <PackageVersion Include="Duende.UserManagement.IdentityServer8" Version="2.0.0-preview.6" />
+    
+    <!-- BFF -->
+    <PackageVersion Include="Duende.BFF" Version="4.3.2" />
+    <PackageVersion Include="Duende.BFF.EntityFramework" Version="4.3.2" />
+    <PackageVersion Include="Duende.BFF.Yarp" Version="4.3.2" />
+    
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.11.0" />
