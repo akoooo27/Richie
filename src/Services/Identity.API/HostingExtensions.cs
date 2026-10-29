@@ -1,6 +1,7 @@
 using Duende.IdentityServer;
 using Duende.Storage.PostgreSql;
 using Duende.UserManagement;
+using Duende.UserManagement.Authentication.Otp;
 
 using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
@@ -50,7 +51,14 @@ internal static class HostingExtensions
                     options => options.SchemaName = StorageInstances.SchemaName
                 )
             )
-            .AddUserManagement(StorageInstances.UserManagement, _ => { });
+            .AddUserManagement
+            (
+                StorageInstances.UserManagement,
+                userManagement => userManagement.Authentication
+                (
+                    authentication => authentication.Services.AddScoped<IOtpDispatcher, ResendOtpDispatcher>()
+                )
+            );
 
         builder.Services
             .AddDataProtection()
