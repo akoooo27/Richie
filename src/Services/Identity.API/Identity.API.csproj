@@ -2,6 +2,7 @@
   
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql" />
+    <PackageReference Include="Aspire.Azure.Security.KeyVault" />
     
     <PackageReference Include="Duende.Storage" />
     <PackageReference Include="Duende.Storage.PostgreSql" />
@@ -11,6 +12,8 @@
     
     <PackageReference Include="Duende.UserManagement" />
     <PackageReference Include="Duende.UserManagement.IdentityServer8" />
+    
+    <PackageReference Include="Resend" />
   </ItemGroup>
   
   <ItemGroup>

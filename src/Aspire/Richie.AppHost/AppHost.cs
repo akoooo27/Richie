@@ -1,3 +1,4 @@
+using Aspire.Hosting.Azure;
 using Aspire.Hosting.EntityFrameworkCore;
 using Aspire.Hosting.JavaScript;
 
@@ -5,7 +6,7 @@ const string webBffClientId = "web-bff";
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddAzureKeyVault("key-vault");
+IResourceBuilder<AzureKeyVaultResource> keyVault = builder.AddAzureKeyVault("key-vault");
 
 IResourceBuilder<PostgresServerResource> postgres = builder
     .AddPostgres("postgres")
@@ -38,8 +39,10 @@ builder
 
 IResourceBuilder<ProjectResource> identityApi = builder
     .AddProject<Projects.Identity_API>("identity-api", launchProfileName: "https")
+    .WithReference(keyVault)
     .WithReference(identityDb)
     .WithReference(userManagementDb)
+    .WaitFor(keyVault)
     .WaitFor(identityDb)
     .WaitFor(userManagementDb)
     .WithEnvironment("Clients__WebBff__ClientId", webBffClientId)
