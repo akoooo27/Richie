@@ -1,5 +1,6 @@
 using Duende.Bff;
 using Duende.Bff.Builder;
+using Duende.Bff.DynamicFrontends;
 using Duende.Bff.EntityFramework;
 
 using Microsoft.AspNetCore.DataProtection;
@@ -40,6 +41,9 @@ internal static class HostingExtensions
         string clientSecret = builder.Configuration["Authentication:Oidc:ClientSecret"] ??
                               throw new InvalidOperationException("OIDC client secret is not configured.");
 
+        Uri spaDevServerUrl = builder.Configuration.GetValue<Uri>("Spa:DevServerUrl") ??
+                              throw new InvalidOperationException("SPA dev server URL is not configured.");
+
         builder.Services
             .AddBff(options =>
             {
@@ -62,6 +66,11 @@ internal static class HostingExtensions
 
                 options.Scope.Add(OpenIdConnectScope.OfflineAccess);
             })
+            .AddFrontends
+            (
+                new BffFrontend(BffFrontendName.Parse("spa"))
+                    .WithProxiedStaticAssets(spaDevServerUrl)
+            )
             .AddServerSideSessions()
             .AddEntityFrameworkServerSideSessionsServices<SessionDbContext, IBffServicesBuilder>()
             .ConfigureEntityFrameworkSessionStoreOptions(options =>

@@ -7,7 +7,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vp dev --port 3000",
+    "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
     "check": "vp check",

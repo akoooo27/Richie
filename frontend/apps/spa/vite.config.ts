@@ -8,6 +8,10 @@ import tailwindcss from "@tailwindcss/vite";
 
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
+  server: {
+    port: 3000,
+    hmr: process.env.PORT ? { protocol: "ws", clientPort: Number(process.env.PORT) } : undefined,
+  },
   plugins: [
     devtools(),
     tailwindcss(),

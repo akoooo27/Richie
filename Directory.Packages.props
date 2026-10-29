@@ -15,6 +15,7 @@
     <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.6.4-preview.1.26523.11" />
     <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.6.4" />
     <PackageVersion Include="Aspire.Hosting.Redis" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.6.4" />
     
     <!-- Domain -->
     <PackageVersion Include="MediatR.Contracts" Version="2.0.1" />
