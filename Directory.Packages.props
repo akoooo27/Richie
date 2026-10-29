@@ -27,6 +27,7 @@
     
     <PackageVersion Include="Aspire.Npgsql" Version="13.6.4" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Azure.Security.KeyVault" Version="13.6.4" />
     
     <PackageVersion Include="Duende.Storage" Version="2.0.0-preview.6" />
     <PackageVersion Include="Duende.Storage.PostgreSql" Version="2.0.0-preview.6" />
@@ -36,6 +37,8 @@
     
     <PackageVersion Include="Duende.UserManagement" Version="2.0.0-preview.6" />
     <PackageVersion Include="Duende.UserManagement.IdentityServer8" Version="2.0.0-preview.6" />
+    
+    <PackageVersion Include="Resend" Version="0.24.0" />
     
     <!-- BFF -->
     <PackageVersion Include="Duende.BFF" Version="4.3.2" />

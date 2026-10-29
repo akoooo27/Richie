@@ -2,6 +2,7 @@ using Duende.IdentityServer;
 using Duende.Storage.PostgreSql;
 using Duende.UserManagement;
 
+using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
 using Identity.API.Storage;
 
@@ -9,15 +10,21 @@ using Microsoft.AspNetCore.DataProtection;
 
 using Npgsql;
 
+using Resend;
+
 using Richie.ServiceDefaults;
 
 namespace Identity.API;
 
 internal static class HostingExtensions
 {
+    private const string KeyVaultConnectionName = "key-vault";
+
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.Configuration.AddAzureKeyVaultSecrets(KeyVaultConnectionName);
 
         builder.AddNpgsqlDataSource(StorageInstances.IdentityConnectionName);
         builder.AddKeyedNpgsqlDataSource(StorageInstances.UserManagementConnectionName);
@@ -48,6 +55,17 @@ internal static class HostingExtensions
         builder.Services
             .AddDataProtection()
             .SetApplicationName("Identity.API");
+
+        string resendApiToken = builder.Configuration["Resend:ApiToken"]
+            ?? throw new InvalidOperationException("Resend API token is not configured.");
+
+        builder.Services.AddResend(options => options.ApiToken = resendApiToken);
+
+        builder.Services
+            .AddOptions<ResendOtpOptions>()
+            .BindConfiguration(ResendOtpOptions.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         return builder.Build();
     }
