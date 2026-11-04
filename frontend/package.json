@@ -7,10 +7,12 @@
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "ui:add": "pnpm --filter @repo/ui exec shadcn add"
   },
   "devDependencies": {
     "prettier": "3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "turbo": "^2.11.10",
     "typescript": "catalog:"
   },

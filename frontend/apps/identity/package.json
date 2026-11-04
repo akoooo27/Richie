@@ -21,7 +21,7 @@
     "@tanstack/react-router-devtools": "1.167.2",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

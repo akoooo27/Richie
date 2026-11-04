@@ -1,7 +1,7 @@
-import { globalIgnores } from "eslint/config";
-import pluginRouter from "@tanstack/eslint-plugin-router";
-import reactRefresh from "eslint-plugin-react-refresh";
-import { config as reactConfig } from "./react-internal.js";
+import { globalIgnores } from "eslint/config"
+import pluginRouter from "@tanstack/eslint-plugin-router"
+import reactRefresh from "eslint-plugin-react-refresh"
+import { config as reactConfig } from "./react-internal.js"
 
 /**
  * ESLint configuration for Vite + React + TanStack Router apps.
@@ -20,4 +20,4 @@ export const viteConfig = [
       "react-refresh/only-export-components": "off",
     },
   },
-];
+]
