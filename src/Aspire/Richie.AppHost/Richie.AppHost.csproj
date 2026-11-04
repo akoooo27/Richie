@@ -8,6 +8,11 @@
   
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Identity.API\Identity.API.csproj" />
   </ItemGroup>
 
 </Project>
