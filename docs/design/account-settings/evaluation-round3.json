@@ -1,0 +1,115 @@
+{
+  "round": 3,
+  "canvasVersion": "1793877569-bad9",
+  "specRevision": 5,
+  "overall": {
+    "score": 8.7,
+    "verdict": "Ship with fixes",
+    "note": "Every open round 2 item is resolved or, for the reserved-space items, closed by an acceptable documented rationale; one partly. One new Minor (N3-01, Profile compact preview: CSS differs from the spec) keeps Profile at Ship with fixes. The other seven units ship."
+  },
+  "weights": {
+    "visual": 0.12,
+    "consistency": 0.10,
+    "usability": 0.20,
+    "content": 0.10,
+    "accessibility": 0.15,
+    "responsive": 0.10,
+    "states": 0.13,
+    "handoff": 0.10
+  },
+  "units": [
+    {
+      "name": "Account shell",
+      "score": 8.7,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 9.0, "responsive": 9.0, "states": 8.0, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Profile",
+      "score": 8.5,
+      "verdict": "Ship with fixes",
+      "regraded": true,
+      "criteria": { "visual": 8.0, "consistency": 8.5, "usability": 8.5, "content": 9.0, "accessibility": 8.5, "responsive": 8.5, "states": 9.0, "handoff": 8.0 },
+      "issues": [
+        { "id": "N3-01", "severity": "Minor", "summary": "On phones the compact preview's CSS differs from the spec. The spec keeps a visible 'How customers see you' heading and caption, and puts the alert slot with the action row before the preview. The CSS visually hides the caption and moves the alert slot after the card. Result: an unlabelled chat card floats under the form, and a save failure appears below the card, about 180 px from Save. The bubble also sits about 250 px under First name, not the spec's 150 px. Build it as specified.", "evidence": ".design/qa-out/eval-3-results/shots/Main@390x844@full.png; shots/Profile-save-failed@390x844@full.png (Save y≈582, alert y≈760); account.css @container (max-width: 619px) block; spec lines 232, 632" }
+      ]
+    },
+    {
+      "name": "Sign-in and security",
+      "score": 8.7,
+      "verdict": "Ship",
+      "regraded": true,
+      "criteria": { "visual": 8.0, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 8.5, "responsive": 8.5, "states": 9.0, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Confirm it’s you (step-up)",
+      "score": 8.9,
+      "verdict": "Ship",
+      "regraded": true,
+      "criteria": { "visual": 8.0, "consistency": 9.0, "usability": 9.0, "content": 9.0, "accessibility": 9.0, "responsive": 8.5, "states": 9.5, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Preferences",
+      "score": 8.6,
+      "verdict": "Ship",
+      "regraded": true,
+      "criteria": { "visual": 7.5, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 9.0, "responsive": 8.5, "states": 8.5, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Connected apps",
+      "score": 8.9,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 9.0, "content": 9.0, "accessibility": 9.0, "responsive": 9.0, "states": 8.5, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Data and privacy",
+      "score": 8.5,
+      "verdict": "Ship",
+      "regraded": true,
+      "criteria": { "visual": 8.0, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 8.5, "responsive": 8.5, "states": 8.0, "handoff": 8.5 },
+      "issues": []
+    },
+    {
+      "name": "Account deletion lifecycle",
+      "score": 8.8,
+      "verdict": "Ship",
+      "regraded": true,
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 9.0, "content": 8.5, "accessibility": 8.5, "responsive": 8.5, "states": 9.0, "handoff": 9.0 },
+      "issues": []
+    }
+  ],
+  "reservedSpaceRationale": {
+    "verdict": "Acceptable",
+    "summary": "Spec §1.5 rule 8 ('Why empty space is kept') states the rule, names every place it shows, gives the user benefit (saving, an error or a status never pushes content someone is reading or about to tap) and tells engineers not to collapse it. It is applied consistently and measured to hold (no shift across saved, failed, removed and waiting states). The cost is a looser rhythm, most visible on Profile at desktop (~150 px under the name hint) and in Preferences at 320 (~125 px gaps). That is a deliberate trade, not a defect, so PR-1, PR-4, SE-2, ST-2 and PF-1 are closed. Optional later refinement: drawing Cancel and Save as unavailable in the clean name form would give the largest gap content without breaking the rule."
+  },
+  "round2Issues": [
+    { "id": "N2-01", "status": "Resolved", "evidence": "The delete dialog now shows the consequences list, then the typed field (Data-delete-confirm.dc.html); shots/Data-delete-confirm@1280x800.png" },
+    { "id": "N2-02", "status": "Partly", "evidence": "Fields and hint are together and a compact reply card follows the form (shots/Main@390x844@full.png), but the CSS hides the caption and moves the alert slot after the card, against spec lines 232 and 632. See new N3-01" },
+    { "id": "N2-03", "status": "Resolved", "evidence": "The passkey bullet carries data-when=\"has-passkey\" (Stepup-cant-get-code.dc.html); spec screen C 'Only when the person has a passkey'; title clause fixed (spec line 847)" },
+    { "id": "N2-04", "status": "Resolved", "evidence": "'Add a passkey so you can still sign in if you lose access to your email.' (Security-no-passkeys; spec line 760); shots/Security-no-passkeys@1280x800@el_passkeys.png" },
+    { "id": "N2-05", "status": "Resolved", "evidence": "One rule per screen for every entry path (spec §7.4 table, §4.0 hand-off step 3): screen A title, screen B code input, screen C title. Stepup.dc.html title has tabindex=-1 and no arrival ring; Stepup-code draws the input" },
+    { "id": "N2-06", "status": "Resolved", "evidence": "Signin-deleted 'Download your data' links to Export-start (Signin-deleted.dc.html:20)" },
+    { "id": "N2-07", "status": "Resolved", "evidence": "'A live account wins' (spec line 1117)" },
+    { "id": "N2-08", "status": "Resolved", "evidence": "Accepted trade-off stated; rate limit of 5 per address and 20 per IP per hour, shown with a countdown button (spec line 1073, §9 Q8)" },
+    { "id": "X-1", "status": "Resolved", "evidence": "One source of truth per concern (spec line 1473: account.css for values, the spec for behaviour, copy and states); review IDs moved to §11 (none before line 1727); §6.2 lists all 56 boards in canvas.json" },
+    { "id": "PR-1", "status": "Resolved (accepted rationale)", "evidence": "Spec §1.5 rule 8 'Why empty space is kept'; #email-title stable across 4 Profile states at 390, 320 and 1280 (scripts/measure.mjs)" },
+    { "id": "PR-4", "status": "Resolved (accepted rationale)", "evidence": "Spec §1.5 rule 8 names change-email step 1; round 2 copy improvement kept" },
+    { "id": "SE-2", "status": "Resolved (accepted rationale)", "evidence": "Spec §1.5 rule 8 names the gap under a section action" },
+    { "id": "ST-2", "status": "Resolved (accepted rationale)", "evidence": "Spec §1.5 rule 8 names step-up screen A; the one-height dialog keeps the title and buttons still across A, B and C" },
+    { "id": "PF-1", "status": "Resolved (accepted rationale)", "evidence": "Spec §1.5 rule 8 names the Preferences sections" },
+    { "id": "DP-5", "status": "Resolved", "evidence": "Board order now matches the spec (list, then field), and the field scrolls into view on open (spec line 1009); shots/Data-delete-confirm@844x390.png" }
+  ],
+  "strengths": [
+    "Every board and the spec now agree on step-up focus, the delete dialog and the signed-out download, with one source of truth per concern.",
+    "Recovery and deletion are complete: the lost-mailbox route only shows the passkey option to people who have one, Security nudges a passkey as a way back in, and sign-in resolves a live account before a deleted one.",
+    "The reserved-space rule is now explained in the spec, so engineers will keep it rather than tighten it away."
+  ],
+  "mustFix": []
+}

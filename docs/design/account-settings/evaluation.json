@@ -1,0 +1,132 @@
+{
+  "overall": {
+    "score": 8.3,
+    "verdict": "No-ship",
+    "note": "Six of eight units can go to engineering now (1 Ship, 5 Ship with fixes). Step-up (ST-1) and the deletion lifecycle (DL-1) each have one Major that needs a small design or product decision first."
+  },
+  "weights": {
+    "visual": 0.12,
+    "consistency": 0.10,
+    "usability": 0.20,
+    "content": 0.10,
+    "accessibility": 0.15,
+    "responsive": 0.10,
+    "states": 0.13,
+    "handoff": 0.10
+  },
+  "severityDefinitions": {
+    "Blocker": "Prevents a core task, exposes data or security, fails WCAG 2.2 AA in a way that blocks people, or cannot be built without the designer.",
+    "Major": "A dead end, missing recovery, misleading state, or handoff contradiction likely to be built wrong; needs a design or product decision before build.",
+    "Minor": "Polish, copy, consistency or spec hygiene a developer can fix during implementation without new design work."
+  },
+  "units": [
+    {
+      "name": "Account shell",
+      "score": 8.5,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 8.0, "responsive": 9.0, "states": 8.0, "handoff": 8.5 },
+      "issues": [
+        { "id": "SH-1", "severity": "Minor", "summary": "No skip link: 8 sidebar tab stops precede page content on every desktop page. Add a 'Skip to content' link, visible on focus, targeting the h1.", "evidence": "Rig keyboard order, Main 1280x800 (stops 1-8 sidebar, 9 = Change photo) in .design/qa-out/eval-results/auto/report.md; spec §3.2/§4.1 silent" },
+        { "id": "SH-2", "severity": "Minor", "summary": "Sidebar email truncation draws a half glyph before the generated ellipsis ('featherstonehau[g]…@'). Build it with EmailText (text-overflow), not the canvas pseudo-element.", "evidence": ".design/qa-out/eval-results/shots-eval/Profile-extreme@2880x1800@zoom2@el_.ra-side-email.png; account.css:1275; spec §4.0 long emails" }
+      ]
+    },
+    {
+      "name": "Profile",
+      "score": 8.2,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 7.5, "consistency": 8.5, "usability": 7.5, "content": 9.0, "accessibility": 8.5, "responsive": 7.5, "states": 9.0, "handoff": 8.5 },
+      "issues": [
+        { "id": "PR-1", "severity": "Minor", "summary": "In the clean state, the reserved action row and alert slot leave about 150-170 px of blank space under the name hint at every width; it reads as missing content and pushes the preview down on phones.", "evidence": "shots-eval/Main@1440x900@dark@full.png (hint ends y≈530, Email h2 y=705), Main@390x844@full.png, Main@320x640@full.png; spec §1.5 rule 8, §4.2" },
+        { "id": "PR-2", "severity": "Minor", "summary": "On phones the live preview is about 550 px below the First name field, so it is off-screen while typing with a keyboard open, contrary to spec §1.4.", "evidence": "shots-eval/Main@390x844@full.png (field y≈360-404, preview name label y≈947); spec §1.4 line 258" },
+        { "id": "PR-3", "severity": "Minor", "summary": "At 844x390 the crop area hits its 160 px floor and the Zoom slider scrolls out of view, though the spec sizes the crop so the slider stays in view.", "evidence": "shots-eval/Profile-photo-crop@844x390.png; spec §4.2 line 673, §7.2 row 26" },
+        { "id": "PR-4", "severity": "Minor", "summary": "Change-email step 1 shows about 100 px of empty dialog body because of the one-height rule; use it for useful copy.", "evidence": "shots-eval/Profile-email-change@1280x800.png" },
+        { "id": "PR-5", "severity": "Minor", "summary": "aria-haspopup='dialog' sits on Change photo and Upload photo, which open the OS file picker, not a dialog.", "evidence": "Main.dc.html:44; Profile-photo-removed.dc.html:109" },
+        { "id": "PR-6", "severity": "Minor", "summary": "The first-name error isn't reserved and moves the form 28 px, contrary to the stated 'states never move' rule; document field errors as the exception.", "evidence": "#email-title 692→720 at 1440 and 1176→1204 at 390 (Main vs Profile-name-error), scripts/measure.mjs" }
+      ]
+    },
+    {
+      "name": "Sign-in and security",
+      "score": 8.3,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.0, "consistency": 9.0, "usability": 8.5, "content": 8.0, "accessibility": 8.5, "responsive": 8.0, "states": 8.5, "handoff": 8.0 },
+      "issues": [
+        { "id": "SE-1", "severity": "Minor", "summary": "Loading skeletons draw fewer lines than the loaded text at narrow widths, so content jumps 128-256 px at 320 (44 px at 1440) when data arrives, contrary to §4.3.", "evidence": "#sessions-title 904→1032, #activity-title 1424→1680 at 320 (Security-loading vs Security); shots-eval/Security-loading@320x640@full.png; spec lines 826-830" },
+        { "id": "SE-2", "severity": "Minor", "summary": "Empty reserved status slots make section gaps uneven (about 100 px at 1440 and 130 px at 320 after a section foot, against about 55 px elsewhere).", "evidence": "shots-eval/Security@1440x900@full.png, Security@320x640@dark@full.png" },
+        { "id": "SE-3", "severity": "Minor", "summary": "The spec runs step-up 'inside the same dialog' as the remove-passkey confirm, but the confirm is AlertDialog/AlertSheet and step-up is Dialog/Drawer. The transition, focus handoff and where a failure alert sits in the sheet are undefined.", "evidence": "Spec §4.3 line 790, §8 rows 18-19; Security-remove-passkey and Stepup are drawn separately" },
+        { "id": "SE-4", "severity": "Minor", "summary": "The add-passkey failure 'No passkey added. The prompt was canceled or timed out.' gives no next step, against the area's own rule that errors say what to do.", "evidence": "Security-passkey-failed.dc.html:87; spec §4.0 copy rules" },
+        { "id": "SE-5", "severity": "Minor", "summary": "The unknown-device advice omits checking passkeys and securing the mailbox; changing email needs a code from that mailbox.", "evidence": "Security.dc.html:92" }
+      ]
+    },
+    {
+      "name": "Confirm it’s you (step-up)",
+      "score": 8.3,
+      "verdict": "No-ship",
+      "criteria": { "visual": 8.0, "consistency": 9.0, "usability": 7.0, "content": 9.0, "accessibility": 8.5, "responsive": 8.5, "states": 9.0, "handoff": 8.0 },
+      "issues": [
+        { "id": "ST-1", "severity": "Major", "summary": "Dead end when the code can't be received. Screen B offers only 'Use a passkey instead' (if available) and Cancel. Someone changing email off a lost work mailbox, past the 10-minute window and with no passkey, has no way forward and no explanation. Add 'Can't get the code?' with recovery options, and define a lost-mailbox recovery policy.", "evidence": "Stepup-code.dc.html:42; shots-eval/Stepup-mobile@320x640.png; spec §4.4 Screen B, §4.2 change email flow" },
+        { "id": "ST-2", "severity": "Minor", "summary": "Screen A reserves screen B's height, leaving about 80-150 px of empty space under the note.", "evidence": "shots-eval/Stepup@1280x800.png, Stepup@390x844.png" },
+        { "id": "ST-3", "severity": "Minor", "summary": "The locked state draws a focus ring around a static error paragraph, which reads as a button; §7.4 shows no ring for programmatically focused headings.", "evidence": "Stepup-code-locked.dc.html:38; shots-eval/Stepup-code-locked@1280x800@el_data-slot_dialog-content_.png; spec line 1495" },
+        { "id": "ST-4", "severity": "Minor", "summary": "No rule for drawers with inputs when the on-screen keyboard is open (code, new email, rename, typed phrase); at 320x640 the delete drawer already fills the screen.", "evidence": "shots-eval/Data-delete-confirm@320x640@dark.png, Stepup-mobile@320x640.png; spec §3.2 covers ≤540 heights only" }
+      ]
+    },
+    {
+      "name": "Preferences",
+      "score": 8.4,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 7.5, "consistency": 8.5, "usability": 8.5, "content": 9.0, "accessibility": 9.0, "responsive": 8.5, "states": 8.0, "handoff": 8.5 },
+      "issues": [
+        { "id": "PF-1", "severity": "Minor", "summary": "Empty reserved status slots leave about 85-125 px between sections, and the unsubscribe note floats 50-90 px below its group.", "evidence": "shots-eval/Preferences@1440x900@full.png, Preferences@320x640@full.png" },
+        { "id": "PF-2", "severity": "Minor", "summary": "A language change reloads the interface, but nothing says where focus and scroll land afterwards or how the 'Saved. Richie is now in…' status survives the reload.", "evidence": "Spec §4.5 Language row" },
+        { "id": "PF-3", "severity": "Minor", "summary": "Only 'Emails from Richie' uses a fieldset with the h2 inside the legend; the other sections don't. Use one pattern.", "evidence": "Preferences.dc.html:105" }
+      ]
+    },
+    {
+      "name": "Connected apps",
+      "score": 8.8,
+      "verdict": "Ship",
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 9.0, "content": 9.0, "accessibility": 9.0, "responsive": 9.0, "states": 8.5, "handoff": 8.0 },
+      "issues": [
+        { "id": "CA-1", "severity": "Minor", "summary": "App identity is a letter tile only; no rule for using the client's registered logo (LogoUri) or showing its website or publisher. Optional.", "evidence": "Connected.dc.html:33; spec §4.6" }
+      ]
+    },
+    {
+      "name": "Data and privacy",
+      "score": 8.1,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.0, "consistency": 7.5, "usability": 8.5, "content": 8.0, "accessibility": 8.5, "responsive": 8.0, "states": 8.0, "handoff": 7.5 },
+      "issues": [
+        { "id": "DP-1", "severity": "Minor", "summary": "The delete dialog footer is right-aligned with unequal buttons, but the spec requires .is-even equal halves; .is-even exists in no board and no CSS rule.", "evidence": "Data-delete-confirm.dc.html:37; shots-eval/Data-delete-confirm@1280x800.png; spec lines 274, 1472, 1581" },
+        { "id": "DP-2", "severity": "Minor", "summary": "The download description says 'sessions', against the spec's one-name rule ('device', not 'session').", "evidence": "Data.dc.html:34; Data-ready.dc.html:34; spec §4.0" },
+        { "id": "DP-3", "severity": "Minor", "summary": "The deletion consequences never say you can't use Richie with this account any more; a generic account-level line keeps to the PO rule. Flag workspace ownership on deletion to product.", "evidence": "Data-delete-confirm.dc.html list; spec §4.7" },
+        { "id": "DP-4", "severity": "Minor", "summary": "Localisation and matching tolerance of the typed phrase 'delete my account' are unspecified.", "evidence": "Spec §4.7 Field row; Language offers de, es, fr, pt-BR, ka (§4.5)" },
+        { "id": "DP-5", "severity": "Minor", "summary": "At 200% zoom and at 844x390 the fixed header and footer leave about 130-150 px of body; the typed field, which has initial focus, starts out of view.", "evidence": ".design/qa-out/eval-results/auto/shots/Data-delete-confirm/zoom200-1280x800-light.png; shots-eval/Data-delete-confirm@844x390.png" }
+      ]
+    },
+    {
+      "name": "Account deletion lifecycle",
+      "score": 7.6,
+      "verdict": "No-ship",
+      "criteria": { "visual": 8.0, "consistency": 8.5, "usability": 6.5, "content": 8.0, "accessibility": 8.5, "responsive": 8.5, "states": 7.0, "handoff": 6.5 },
+      "issues": [
+        { "id": "DL-1", "severity": "Major", "summary": "Export token lifecycle undefined and can dead-end. A 'used' /export token goes to /export/expired, yet the expired-download page and the ready email send people back to /export for a new download. Nothing leads back for someone who lost the day-30 email, and identity sign-in for an address deleted in the last 30 days is unspecified.", "evidence": "Spec lines 374, 1007, 1069-1070, 1080; boards Export-request, Export-requested" },
+        { "id": "DL-2", "severity": "Minor", "summary": "Deletion-pending doesn't show which account is scheduled (no account chip, unlike Export-request).", "evidence": "Deletion-pending.dc.html:19; shots-eval/Deletion-pending@390x844@dark.png" },
+        { "id": "DL-3", "severity": "Minor", "summary": "'Keep my account' always goes to the Richie app root, dropping the sign-in's return URL (a deep link or an OAuth authorize request).", "evidence": "Spec §4.8 Deletion-pending, Keep row" },
+        { "id": "DL-4", "severity": "Minor", "summary": "Several states are copy-only, and the expired-page titles differ between §3.1 and §4.8.", "evidence": "Spec line 374 vs lines 1065-1070" },
+        { "id": "DL-5", "severity": "Minor", "summary": "The cheerful, tongue-out shiba heads the 'Your account will be deleted' page; use a neutral pose or a badge.", "evidence": "shots-eval/Data-deleted@1440x900.png" }
+      ]
+    }
+  ],
+  "crossCutting": [
+    { "id": "X-1", "severity": "Minor", "summary": "Two sources of truth: the §6.2 tables are admitted stale, §7.2 overrides the built CSS (and DP-1 shows real drift), and 81 spec lines carry internal QA IDs. Sync and clean before handoff.", "evidence": "Spec lines 1174, 1414; grep of A-/B-/C-/R- references" },
+    { "id": "X-2", "severity": "Minor", "summary": "§8 row 18 'Set dismissible so an outside click doesn't close it' reads backwards; suiss dismissible enables backdrop dismissal. Write dismissible={false}.", "evidence": "Spec line 1570; suiss-blocks-catalog.md §2.8 (confirm: dismissible defaults to false)" }
+  ],
+  "strengths": [
+    "The live 'How customers see you' messenger: a product-specific signature that explains why your name and photo matter. It is workspace-neutral and aria-hidden with a sr-only summary, and it holds in dark, in forced colours and at 320 px.",
+    "Measured state discipline: reserved slots keep the following headings fixed across saved, failed, removed, waiting and failed-passkey states; dialogs keep one height; there is no horizontal overflow from 320 px to 200% zoom; axe found nothing critical or serious in either theme.",
+    "Security-grade flows and copy mapped to suiss: step-up with real numbers and the countdown in the button, readonly plus aria-disabled instead of disabled, confirmations that say what stops working, inline Undo instead of timed toasts, computed contrast, and a recipe-to-component handoff table whose components exist in the guide."
+  ],
+  "mustFix": [
+    "ST-1: add a 'Can't get the code?' path to step-up screen B and define lost-mailbox recovery, so changing an email you can no longer read is not a dead end.",
+    "DL-1: define /export token reuse and expiry so 'Request a new download' can't land on the expired page, and add a route back to the export for people who lost the day-30 email (from identity sign-in or sign-up for a recently deleted address)."
+  ]
+}
