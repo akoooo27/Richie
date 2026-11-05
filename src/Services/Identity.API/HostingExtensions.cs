@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.DataProtection;
 
 using Npgsql;
 
+using Resend;
+
 namespace Identity.API;
 
 internal static class HostingExtensions
@@ -15,6 +17,8 @@ internal static class HostingExtensions
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
+
+        builder.Configuration.AddAzureKeyVaultSecrets("key-vault");
 
         builder.AddNpgsqlDataSource(IdentityDatabase.ConnectionStringName);
         builder.AddKeyedNpgsqlDataSource(IdentityUsersDatabase.ConnectionStringName);
@@ -33,6 +37,14 @@ internal static class HostingExtensions
         builder.Services
             .AddDataProtection()
             .SetApplicationName("Identity.API");
+
+        string apiToken = builder.Configuration["Resend:ApiToken"]
+            ?? throw new InvalidOperationException("Configuration value 'Resend:ApiToken' is required.");
+
+        builder.Services.AddResend(options =>
+        {
+            options.ApiToken = apiToken;
+        });
 
         return builder.Build();
     }
