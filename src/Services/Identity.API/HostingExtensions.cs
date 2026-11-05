@@ -1,6 +1,8 @@
 using Duende.IdentityServer;
 using Duende.Storage.PostgreSql;
+using Duende.UserManagement.Authentication.Otp;
 
+using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
 using Identity.API.Storage;
 
@@ -23,6 +25,8 @@ internal static class HostingExtensions
         builder.AddNpgsqlDataSource(IdentityDatabase.ConnectionStringName);
         builder.AddKeyedNpgsqlDataSource(IdentityUsersDatabase.ConnectionStringName);
 
+        builder.Services.AddScoped<IOtpDispatcher, ResendOtpDispatcher>();
+
         builder.Services
             .AddIdentityServer()
             .AddStorage(storage => storage.AddPostgreSql(options => options.SchemaName = IdentityDatabase.Schema))
@@ -40,6 +44,11 @@ internal static class HostingExtensions
 
         string apiToken = builder.Configuration["Resend:ApiToken"]
             ?? throw new InvalidOperationException("Configuration value 'Resend:ApiToken' is required.");
+
+        builder.Services
+            .AddOptions<ResendOtpOptions>()
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
 
         builder.Services.AddResend(options =>
         {
