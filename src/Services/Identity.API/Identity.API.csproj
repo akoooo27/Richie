@@ -3,16 +3,25 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Npgsql" />
     <PackageReference Include="Aspire.Azure.Security.KeyVault" />
-    
+
     <PackageReference Include="Duende.IdentityServer" />
-    
+
     <PackageReference Include="Duende.UserManagement.IdentityServer8" />
-    
+
     <PackageReference Include="Duende.Storage.PostgreSql" />
-    
+
     <PackageReference Include="Resend" />
+
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="FastEndpoints.OpenApi" />
+    <PackageReference Include="FastEndpoints.Generator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\..\Aspire\Richie.ServiceDefaults\Richie.ServiceDefaults.csproj" />
   </ItemGroup>

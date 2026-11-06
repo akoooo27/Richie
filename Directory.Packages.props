@@ -26,6 +26,13 @@
     
     <PackageVersion Include="Resend" Version="0.24.0" />
     
+    <!-- API -->
+    <PackageVersion Include="FastEndpoints" Version="9.0.0-beta.7" />
+    <PackageVersion Include="FastEndpoints.OpenApi" Version="9.0.0-beta.7" />
+    <PackageVersion Include="FastEndpoints.Generator" Version="9.0.0-beta.7" />
+    
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.19.0" />
+    
     <!-- Aspire ServiceDefaults -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.11.0" />

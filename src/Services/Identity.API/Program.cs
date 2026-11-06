@@ -1,4 +1,4 @@
-using Identity.API;
+using Identity.API.Extensions;
 using Identity.API.Storage;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

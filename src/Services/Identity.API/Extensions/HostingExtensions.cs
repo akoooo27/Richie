@@ -2,6 +2,9 @@ using Duende.IdentityServer;
 using Duende.Storage.PostgreSql;
 using Duende.UserManagement.Authentication.Otp;
 
+using FastEndpoints;
+using FastEndpoints.OpenApi;
+
 using Identity.API.Authentication.Otp;
 using Identity.API.Configuration;
 using Identity.API.Storage;
@@ -12,10 +15,15 @@ using Npgsql;
 
 using Resend;
 
-namespace Identity.API;
+using Scalar.AspNetCore;
+
+namespace Identity.API.Extensions;
 
 internal static class HostingExtensions
 {
+    private const string ApiTitle = "Richie Identity API";
+    private const string ApiV1 = "v1";
+
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
@@ -47,6 +55,7 @@ internal static class HostingExtensions
 
         builder.Services
             .AddOptions<ResendOtpOptions>()
+            .BindConfiguration(ResendOtpOptions.SectionName)
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
@@ -55,12 +64,46 @@ internal static class HostingExtensions
             options.ApiToken = apiToken;
         });
 
+        builder.Services.AddFastEndpoints(DiscoveredTypes.All);
+
+        builder.Services.OpenApiDocument(options =>
+        {
+            options.DocumentName = ApiV1;
+            options.Title = ApiTitle;
+            options.Version = ApiV1;
+            options.MaxEndpointVersion = 1;
+            options.ExcludeNonFastEndpoints = true;
+            options.ShortSchemaNames = true;
+        });
+
         return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        if (app.Environment.IsDevelopment())
+        {
+            app.MapOpenApi();
+
+            app.MapScalarApiReference(options => options
+                .WithTitle(ApiTitle)
+                .AddDocument(ApiV1));
+        }
+
         app.MapDefaultEndpoints();
+
+        app.UseIdentityServer();
+        app.UseAuthorization();
+
+        app.UseFastEndpoints(config =>
+        {
+            config.Binding.ReflectionCache.AddFromIdentityAPI();
+            config.Endpoints.RoutePrefix = "api";
+            config.Versioning.Prefix = "v";
+            config.Versioning.DefaultVersion = 1;
+            config.Versioning.PrependToRoute = true;
+            config.Errors.UseProblemDetails();
+        });
 
         return app;
     }
