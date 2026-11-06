@@ -1,0 +1,1145 @@
+{
+  "overall": {
+    "round1": 8.1,
+    "score": 8.6,
+    "verdict": "Ship",
+    "confidence": "High",
+    "summary": "The revision did what round 1 asked, and more. One precedence order (B-37) is stated word for word in all five headers. B-34 to B-36 and the round's new rulings (B-37 to B-44) are written into the domain page tables. The eight stale sentences are gone, and the drawn board that contradicted a ruling is corrected. B-36's expired request is now one of the best-specified states in the area: page, badge, actions, emails, tokens, support queue and job. Page alerts focus a labelled and described container. The time-limit warning is drawn and measured. One code-screen grammar fixes Tab order on Verify, R4 and P6, and the 390-only drawers put the commit first in the DOM. The rig still finds 0 blockers and 0 majors across 84 boards × 10 viewports × light and forced-dark, and the frame hasn't moved. R-C rises from 7.9 to 8.6, and all 23 units Ship. What keeps the set at 8.6 rather than 8.8: Part A lags its own round in six places (CC-N1), B-43's selector misses R1, two should-fix states (S-C's busy row, E4's other routes) are still copy-only, the handoff grew to 4,639 lines, and canvas wiring and three board heights are small debts. None is a must-fix.",
+    "meanUnitScore": 8.68,
+    "round1MeanUnitScore": 8.43,
+    "tally": {
+      "units": {
+        "ship": 23,
+        "shipWithFixes": 0,
+        "noShip": 0
+      },
+      "round1Issues": {
+        "mustFix": {
+          "total": 4,
+          "fixed": 4,
+          "partlyFixed": 0,
+          "notFixed": 0
+        },
+        "shouldFix": {
+          "total": 30,
+          "fixed": 26,
+          "partlyFixed": 0,
+          "notFixed": 4
+        },
+        "niceToHave": {
+          "total": 27,
+          "fixed": 0,
+          "partlyFixed": 1,
+          "notFixed": 26
+        }
+      },
+      "crossCutting": {
+        "fixed": 7,
+        "partlyFixed": 2,
+        "notFixed": 2,
+        "new": 2
+      },
+      "brandSignOff": "Release gate for brand and legal (B-42); noted, not deducted as a design defect"
+    },
+    "canvasVersion": "1793900431-dcb1",
+    "boards": 84
+  },
+  "units": [
+    {
+      "id": "E1",
+      "name": "Sign-in timed out (Timeout, -mobile, -dark; Signin-timeout-warning)",
+      "round1": 8.6,
+      "score": 8.8,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The B-29 time-limit warning is drawn on `Signin-timeout-warning`, a full copy of `Main`: the slot reads \"Still there? This page times out in 2:00.\" with an inline **Keep going** (drawn focused). The slot keeps its height (20 / 20 / 40 px at 1440 / 390 / 320, two balanced lines at 320) and \"or\" stays at 450 / 418 / 438, exactly as on `Main`, so nothing below moves. Tab order: Email, Send code, Keep going, the methods (rig keyboard pass). The accessible text replaces the ticking m:ss with a fixed clock time. New polish: the focused ring and halo sit on the period before Keep going. The Tallybird nice-to-have is unchanged.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The B-29 time-limit warning (\"Still there? This page times out in 2:00.\" + an inline **Keep going** button) is a new element in the slot with its own CSS, but no board draws it.",
+          "evidence": "spec-edge §3.6; `edges.css` `.ri-edge-slot-action`; Part A §5.3 limits copy-only states to swaps \"with no new element\"",
+          "principle": "Criterion 1 (real states), criterion 6; WCAG 2.2.1",
+          "change": "Draw it once (e.g. on `Verify-help` or a copy of `Main`), with Keep going focused, at 1440 and 320.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Signin-timeout-warning`; spec-edge §2, §3.6 (copy, markup, layout measured); Part A §4.7, §5.3; probe: slot 418–438 / 386–406 / 386–426 and \"or\" 450 / 418 / 438 at 1440 / 390 / 320"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "For a third-party client, Start again goes to that client's login start, but the page doesn't say the person is leaving Richie.",
+          "evidence": "spec-edge E1 behaviour (`Client.InitiateLoginUri` ?? `ClientUri`)",
+          "principle": "Match between system and world (Nielsen 2)",
+          "change": "When the client isn't Richie's own, label the action \"Start again in Tallybird\", or add the client name to the note.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-edge E1 unchanged"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The focus ring on the inline **Keep going** overlaps the period before it, so the focused line reads cramped (\"2:00.[Keep going]\").",
+          "evidence": "`Signin-timeout-warning` at 1440 (3× crop): button at x 812, preceding text ends at 811.5 including one space; `outline: 2px` + `box-shadow: 0 0 0 5px`",
+          "principle": "Legibility of the focused state (polish; WCAG 2.4.13 is AAA)",
+          "change": "Give `.ri-slot .ri-edge-slot-action` `margin-inline-start: 4px` (the slot height doesn't change).",
+          "round": 2,
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "name": "Session expired (Session-expired, -mobile; E3 alert as copy)",
+      "round1": 8,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The backdrop now shows the state the dialog describes: `Session-expired` overlays a full copy of the dirty Profile (First name \"Jay\", Cancel and Save shown, the preview saying \"Jay\"). The drawer has no grab handle (`data-dismissible=\"false\"`; spec-edge E2 Layout, §8.1). E3 follows B-38: the alert container is focused, labelled and described, so \"We'll put back what you typed\" is read. Drawer Tab order is resolved with the alternative round 1 offered: B-41 makes the wrapper's visual order normative and its DOM order the shared desktop DOM, and spec-edge §2, §5 and §8.1 say the build renders Sign in again first below 768. The board itself still Tabs Go to Richie, then Sign in again, with no marker on the board. No dark board (forced-dark only).",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The backdrop contradicts the dialog: the copy says changes aren't saved, but the Profile behind shows its saved values and no dirty action row.",
+          "evidence": "`Session-expired` at 1440 and 390: First name \"Jamie\", Last name \"Rivera\", no Cancel/Save; spec-edge E2 draft table says the dirty state shows Cancel and Save",
+          "principle": "Criterion 1 (real state drawn); visibility of system status",
+          "change": "Draw edited name values and the dirty action row behind the scrim, as on AS `Profile-name-error`.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Session-expired` at 1440 and 390 (screenshots); spec-edge §2 board row, E2 \"Page behind (drawn)\""
+        },
+        {
+          "severity": "should-fix",
+          "issue": "A grab handle on a drawer that can't be dismissed suggests swipe-to-dismiss.",
+          "evidence": "`Session-expired-mobile` top handle; spec-edge §8.1 `dismissible={false}`",
+          "principle": "Affordance and signifiers; criterion 6",
+          "change": "Remove the handle for non-dismissible drawers and say so in the spec.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Session-expired-mobile` at 390: no handle; `data-dismissible=\"false\"`; spec-edge E2 Layout, §8.1"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "On the mobile drawer boards the DOM, and therefore Tab order, runs bottom-up: the secondary at y 832 comes before the commit at y 780. B-30 fixes this only as handoff text.",
+          "evidence": "`Session-expired-mobile`: Go to Richie (y 832) is reached before Sign in again (y 780) (Tab probe at 390); spec Part B B-30",
+          "principle": "WCAG 2.4.3 Focus Order; criterion 6",
+          "change": "Draw the mobile DOM order on the `-mobile` boards (commit first, `flex-direction: column`) so copied markup is correct, or mark the board as non-normative for order.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "By the stated alternative: B-41 declares the wrapper's DOM order non-normative in spec-edge §2, §5 and §8.1; the board's own Tab order (Go to Richie, Sign in again at 390) is unchanged and carries no marker"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Page alerts move focus to the alert title paragraph only. The description, which carries the next step, and the reference are not announced.",
+          "evidence": "E3 \"You were signed out\" (spec-edge E3, layout `Signin-provider-canceled`): \"We'll put back what you typed\" is not announced; `<p data-slot=alert-title tabindex=-1>` with no `aria-describedby`; alert has no role by design (Part A §4.7, §4.10)",
+          "principle": "WCAG 4.1.3, 1.3.1; criterion 4 (screen-reader-sensible errors)",
+          "change": "Give the title `aria-describedby` pointing at the description (and the reference row on P3), or focus the alert container labelled by its title and described by its description.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "B-38; spec-edge E3, §3.4, §8.1; layout `Signin-provider-canceled` (CDP: group named by its title, described by its description)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "There is no dark board for the dialog; only the forced-dark build covers it.",
+          "evidence": "Part A §5.3 dark list; forced-dark render checked",
+          "principle": "Criterion 3",
+          "change": "Optional: add `Session-expired-dark`, since the scrim and drawer surfaces are new in dark.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "Forced-dark build only (renders correctly)"
+        }
+      ]
+    },
+    {
+      "id": "E4",
+      "name": "Error with reference (Error, -mobile, -dark)",
+      "round1": 8.6,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Error`, `-mobile`, `-dark`: 0 blockers and 0 majors in both builds; mascot 689,64 / 164,32 and `h1` 166 / 134 unchanged; the reference slot at 398–418 (1440). No regression. Both round-1 issues remain open: the other-routes variant is still copy-only, and Go to Richie still loops when Richie's own client is misconfigured.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The other-routes variant (two stacked buttons, reference line, slot and note) is the layout recovery users will meet, and no board draws that combination.",
+          "evidence": "spec-edge E4 \"Actions, other routes (copy)\"; §5 state matrix (\"combination measured\")",
+          "principle": "Criterion 1",
+          "change": "Draw `Error-route` (Try again busy optional) at 1440 and 320.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-edge E4 \"Actions, other routes (copy)\" and §5 unchanged; no `Error-route` board"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "When Richie's own client fails, the filled Go to Richie loops back to this page.",
+          "evidence": "spec-edge E4 behaviour (\"the person lands here again\")",
+          "principle": "Help users recover from errors (Nielsen 9)",
+          "change": "When the failing client is Richie's own, make Contact support the primary for that variant.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-edge E4 behaviour unchanged"
+        }
+      ]
+    },
+    {
+      "id": "E5",
+      "name": "Link no longer works (Error-link)",
+      "round1": 8.4,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "Both suggested routes are in place. E5's note ends \"Lost the email? Contact support.\" (topic `recovery-request`; accessible name \"Contact support, opens in a new tab\"). R2's open-request error adds \"Yours? Use the link in your latest status email, or contact support to get it again.\" ahead of \"Not yours? …\", so an honest requester whose status link died is no longer treated as the suspect. The note stays two lines at 1440 and 390. No 390 or dark board.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "For an honest requester with an open request, the primary leads to an error that treats them as a possible intruder and offers no route to their status.",
+          "evidence": "`Error-link` primary → `Recover-account`; spec-recovery §3.2 \"Open request\" row",
+          "principle": "Avoid dead ends (Part A §1.7 principle 2); error recovery",
+          "change": "Add a requester line to R2's open-request error (\"Yours? Use the link in your latest status email, or contact support to get it again.\"), or add \"Lost the email? Contact support.\" to E5's note.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Error-link` note (screenshot; CDP name); spec-edge E5 table; spec-recovery §3.2 \"Open request\" row; §15.1"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "E5 has no 390 or dark board; only the harness covers it.",
+          "evidence": "Part A §5.3; B-22",
+          "principle": "Criterion 3",
+          "change": "Optional mobile board; the two-line h1 at 390 is the one layout change.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "Harness only (B-22)"
+        }
+      ]
+    },
+    {
+      "id": "E6",
+      "name": "Page not found (Error-notfound)",
+      "round1": 8.8,
+      "score": 8.8,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Error-notfound` is clean in both rig builds and the frame is unchanged. No regression. The round-1 nice-to-have (both buttons end on Sign in for a signed-out visitor) is open.",
+      "issues": [
+        {
+          "severity": "nice-to-have",
+          "issue": "For a signed-out visitor both buttons end on Sign in.",
+          "evidence": "spec-edge E6 behaviour (Go to Richie → app root, \"which signs in if needed\")",
+          "principle": "Aesthetic and minimalist design (Nielsen 8)",
+          "change": "Keep Go to Richie only, or make the second action Help (\"Can't sign in?\") when no session exists.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-edge E6 unchanged"
+        }
+      ]
+    },
+    {
+      "id": "E7/E8",
+      "name": "Offline (Signin-offline, -dark; Offline)",
+      "round1": 8.5,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The offline failure line now groups with Send code: slot 418–438 and \"or\" 450–470 at 1440, 386–406 and 418 at 390 (B-43), with the same y on every Sign in-family board. E8 is unchanged and still has no mobile board. The same flush-divider defect survives on R1 (logged under R-A).",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "A filled status line sits flush on the \"or\" divider: 8 px below the commit, 0 px above \"or\", so the error reads as the divider's caption.",
+          "evidence": "`Signin-offline`, `Signin-offline-dark`: slot text box 418-438 and `.ri-or` 438-458 at 1440; 386-406 and 406-426 at 390 (measured)",
+          "principle": "Gestalt proximity; criterion 5 (visual consistency)",
+          "change": "Keep the 20/40 px reservation and add 8-12 px between `.ri-commit` and `.ri-or` so the line groups with the button it reports on.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "Probe at 1440 / 390 / 320; `edges.css` `form + .ri-or { margin-top: 12px }` (B-43)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "Offline has no mobile or dark board.",
+          "evidence": "B-22; Part A §5.3",
+          "principle": "Criterion 3",
+          "change": "Add `Offline-mobile`; it costs one wrapper.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "No `Offline-mobile` board"
+        }
+      ]
+    },
+    {
+      "id": "E9/E10",
+      "name": "Too many attempts (Signin-limited, -dark; Limited, -dark)",
+      "round1": 8,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The drawn slot line is B-34's: \"You've asked for 5 codes in an hour. Try again in 41:12.\", with the digits `aria-hidden` and a fixed sr \"at 4:53 PM\". The countdown button is named \"Send code, available at 4:53 PM\" and described by the slot line (CDP). One rate-limit sentence exists everywhere: spec-edge E9, §3.3 and §7, and Part A §3.5, §4.3 and §4.4 carry B-34. B-44 settles where L2's countdown sits (on the commit), D12 is gone, and no old variant survives in normative text. \"or\" is now 12 px below the slot at 1440, 390 and 320. Remaining distance: L2, waits over an hour and 0:00 are copy-only on this layout (accepted), and the Part A spacing lines lag B-43 (CC-N1).",
+      "issues": [
+        {
+          "severity": "must-fix",
+          "issue": "Rate-limit line contradicts binding ruling B-34. The board says \"This email has received 5 codes in an hour.\" and omits the time that B-34 says follows it.",
+          "evidence": "`Signin-limited`, `Signin-limited-dark` `#slot-status`; spec-edge E9 table, §7, D12; Part A §3.5 L1, §4.3, §4.4; Part B B-34",
+          "principle": "Criterion 2 (final copy), criterion 6 (buildable without asking)",
+          "change": "Use B-34's line everywhere it applies (\"You've asked for 5 codes in an hour.\" per address; \"This network has made 30 attempts in an hour.\" per network, followed by the countdown or clock time) and delete the variants from the domain specs and Part A.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Signin-limited`, `-dark` slot text; spec-edge E9 table, §7; Part A §3.5, §4.3, §4.4; Part B B-44; grep"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "A filled status line sits flush on the \"or\" divider: 8 px below the commit, 0 px above \"or\", so the error reads as the divider's caption.",
+          "evidence": "`Signin-limited`, `Signin-limited-dark`: slot text box 418-438 and `.ri-or` 438-458 at 1440; 386-406 and 406-426 at 390 (measured)",
+          "principle": "Gestalt proximity; criterion 5 (visual consistency)",
+          "change": "Keep the 20/40 px reservation and add 8-12 px between `.ri-commit` and `.ri-or` so the line groups with the button it reports on.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "Measured 12 px gap at 1440, 390 and 320 (B-43)"
+        }
+      ]
+    },
+    {
+      "id": "E11",
+      "name": "Sign-out prompt (Signedout-prompt)",
+      "round1": 8.7,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Signedout-prompt` is clean in both builds; slot 442–462 (1440) and 434–454 (390); frame unchanged. No regression. Both round-1 nice-to-haves are open.",
+      "issues": [
+        {
+          "severity": "nice-to-have",
+          "issue": "E12 disables three controls at once, an uncommon pattern, and it is copy-only.",
+          "evidence": "spec-edge E12; layout reference AS `Security-passkey-waiting`",
+          "principle": "Criterion 1",
+          "change": "Draw the busy state once so the disabled look of the two non-pressed buttons is fixed.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-edge E12 still copy-only"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "No mobile or dark board for the prompt; the account chip and three-button stack are covered only by the harness.",
+          "evidence": "B-22; Part A §5.3",
+          "principle": "Criterion 3",
+          "change": "Optional `-mobile` wrapper (the chip is the element most likely to wrap).",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "No mobile or dark board"
+        }
+      ]
+    },
+    {
+      "id": "E13",
+      "name": "Signed out (Signedout, -mobile, -dark, Signedout-client)",
+      "round1": 8.8,
+      "score": 8.8,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Signedout`, `-mobile`, `-dark` and `-client` are clean and the frame is unchanged. No regression. The canvas nice-to-have is open: the sidebar Sign out is still a `<button>` with no target, and the note still links to `Security.dc.html`.",
+      "issues": [
+        {
+          "severity": "nice-to-have",
+          "issue": "The canvas doesn't wire the sidebar Sign out (a `<button>` with no target) to `Signedout`, and the note goes straight to `Security`.",
+          "evidence": "`Account-sidebar.dc.html` Sign out; `Signedout` note href `Security.dc.html`; Part A §3.1 E13 exits",
+          "principle": "Criterion 6 (journeys walkable)",
+          "change": "Link the sidebar Sign out to `Signedout` and point the note at `Main`.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Account-sidebar.dc.html` Sign out `<button>`; `Signedout` note → `Security.dc.html` (grep)"
+        }
+      ]
+    },
+    {
+      "id": "E14",
+      "name": "Signed out everywhere (Signedout-everywhere)",
+      "round1": 8.6,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Signedout-everywhere` is clean; the `h1` runs 2 lines at 390. No regression. Both round-1 nice-to-haves are open.",
+      "issues": [
+        {
+          "severity": "nice-to-have",
+          "issue": "\"Sign out of every device\" sends no email, unlike every other account-wide security change.",
+          "evidence": "spec-edge QE-3",
+          "principle": "Consistency of security notifications (Part A §4.3 \"We always send these\")",
+          "change": "Decide explicitly with security. If yes, reuse the security email template (\"You signed out of every device…\").",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-edge QE-3 unchanged"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "No mobile or dark board.",
+          "evidence": "B-22",
+          "principle": "Criterion 3",
+          "change": "Optional wrapper boards.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "No mobile or dark board"
+        }
+      ]
+    },
+    {
+      "id": "S-A",
+      "name": "Passkey management (Security, -mobile, -dark, -passkey-added, -passkey-limit, -rename*, -remove-failed, -load-error*)",
+      "round1": 8.6,
+      "score": 8.8,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The wrap contradiction is gone (spec-settings §2.2 and §11 both say `.wrap-all`, no clamp). `Security-rename-error-mobile` draws Save first in its footer DOM (`.ri-set-commit-first`, B-41); Tab: Name, Save, Cancel. The base boards' missing `role=alert` paragraph is closed by ruling B-40 (alert lines may be inserted when they occur). That reason is sound: `role=\"alert\"` is announced on insertion by the major screen readers. Both nice-to-haves are unchanged: \"the “Pixel / 8” passkey\" still splits at 390, and the too-long error doesn't give the count.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The spec says two different things about passkey names: §2.2 \"wrap freely (`.wrap-all`, no clamp)\" and §11 \"…2 at 390 and 320 under `wrap-2`\".",
+          "evidence": "spec-settings §2.2 vs §11 \"Passkey rows at the limit\"",
+          "principle": "Criterion 6",
+          "change": "Delete the §11 sentence or restate it as wrap-all.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-settings §2.2, §11; grep finds `wrap-2` only in the historical Part A §7 brief and spec-settings §13"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Base `Security` draws only `p[role=status]` in the passkeys and providers foots, while action failures there use `role=alert`. A live region has to exist before its message to be announced reliably.",
+          "evidence": "`Security.dc.html` `.ra-section-foot`; spec-settings §1.4 (\"base boards draw only the polite one\")",
+          "principle": "WCAG 4.1.3",
+          "change": "Draw both paragraphs on the base and state that both render at page load.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "Closed by ruling B-40 (reason accepted); spec-settings §1.4"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The balanced failure line splits the quoted passkey name across lines.",
+          "evidence": "`Security-remove-failed` at 1440 and 390: \"the “Pixel / 8” passkey\"",
+          "principle": "Readability",
+          "change": "Keep a quoted name of 20 characters or fewer together (`white-space: nowrap` on the name span), and let longer names wrap.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Security-remove-failed` at 390 (screenshot)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The too-long error doesn't tell the person how far over they are, and the field shows a truncated value.",
+          "evidence": "`Security-rename-error-mobile`: 45-character name, \"Use 40 characters or fewer.\"",
+          "principle": "WCAG 3.3.3 Error Suggestion",
+          "change": "Add the count (\"Use 40 characters or fewer. This name has 45.\").",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-settings §2.1 \"Use 40 characters or fewer.\""
+        }
+      ]
+    },
+    {
+      "id": "S-B",
+      "name": "Email settings (Profile, Profile-email-*)",
+      "round1": 8.5,
+      "score": 8.8,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The 10-addresses-an-hour check is now a row in spec-settings §3.1: commit countdown, slot line, 0:00 line and layout reference. `Profile-email-code-mobile` draws Change email first in its footer DOM (Tab: code, Use a different email, Change email, Cancel). The wrapper `Profile-email-taken-mobile` keeps the shared DOM under B-41, and its spec row says so. The measurement note is half corrected: §12.4 names the two-line exception, but §8's field-slot row still says \"longest string 1 line at 400\". New small gap: B-39 lists S5 step 2 among the code screens whose lede names the purpose, but its description doesn't.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The address-check limit (10 an hour, \"You've tried 10 addresses in an hour.\") is a real state whose copy lives only in the open-questions table.",
+          "evidence": "spec-settings §10 Q-S4 vs §3.1 state table",
+          "principle": "Criterion 1, criterion 6",
+          "change": "Add the row to §3.1: commit label, slot line, the 0:00 line and the layout reference.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-settings §3.1 \"Too many address checks\" row; §6.3; §10 Q-S4"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "On the mobile drawer boards the DOM, and therefore Tab order, runs bottom-up: the secondary at y 832 comes before the commit at y 780. B-30 fixes this only as handoff text.",
+          "evidence": "`Profile-email-code-mobile`: input, Use a different email, Cancel (y 832), then Change email (y 780) (Tab probe at 390); spec Part B B-30",
+          "principle": "WCAG 2.4.3 Focus Order; criterion 6",
+          "change": "Draw the mobile DOM order on the `-mobile` boards (commit first, `flex-direction: column`) so copied markup is correct, or mark the board as non-normative for order.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Profile-email-code-mobile` keyboard pass at 390; the wrapper is documented per B-41 (§7 rows)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The measurement claim doesn't match the render. §8 says the longest field-slot string is 1 line at 400, but \"That email already belongs to another Richie account. Use a different one.\" wraps to 2 lines in the 1440 dialog.",
+          "evidence": "`Profile-email-taken` at 1440; spec-settings §8 `.ri-set-field-slot`",
+          "principle": "Criterion 6 (trustworthy measurements)",
+          "change": "Correct the note. The height still holds because the dialog keeps step 2's height.",
+          "round": 1,
+          "status": "partly fixed",
+          "statusEvidence": "§12.4 corrected; §8 `.ri-set-field-slot` row still \"longest string 1 line at 400\""
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "B-39 lists S5 step 2 among the code screens whose lede names the purpose, but its description is still \"Enter the code we sent to jamie@rivera.studio.\" The dialog title \"Check your new email\" carries the purpose, so the impact is small.",
+          "evidence": "`Profile-email-code-mobile` at 390 (screenshot); spec-settings §3.2 table; Part B B-39; Part A §4.7",
+          "principle": "Consistency (B-39); WCAG 2.4.6",
+          "change": "Either use \"…to confirm your new email.\" as R4 does, or state in spec-settings §3.2 that the dialog title carries the purpose.",
+          "round": 2,
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "S-C",
+      "name": "Google and Microsoft in settings (Security section, -linked, -link-error, -unlink)",
+      "round1": 8.3,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "Medium",
+      "grading": "re-graded",
+      "reasoning": "The specs now give one registration: spec-settings §9.2 and spec-sso §13.2 carry identical `AddOpenIdConnect` text, the claim mapping and the two `CallbackPath`s, with the reason for not using `AddGoogle` or `AddMicrosoftAccount`. The provider-error support link is `topic=provider&ref=…&from=S8`, and `provider` is in spec-recovery §15.1. The base-slot alert paragraph is closed by B-40. Still undrawn: the busy row action (\"Taking you to Microsoft…\", 204 px) and \"Link in 41:12\", which are new row-action shapes (copy and measurements only). The empty reserved line in the not-linked Microsoft row is unchanged.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The two specs give different Google registrations, and each cites the other as its source.",
+          "evidence": "spec-settings §9.2 \"Schemes\": `AddOpenIdConnect(\"google\", …)`; spec-sso §13.2: `AddGoogle(\"google\", …)` with `ClaimActions.MapJsonKey(\"email_verified\", \"verified_email\")`",
+          "principle": "Criterion 6",
+          "change": "Pick one handler and fix the claim mapping and `CallbackPath` in both specs.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-settings §9.2 and spec-sso §13.2 have the same text"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "The busy row action (\"Taking you to Microsoft…\", 204 px) and \"Link in 41:12\" are new row-action shapes that are only measured, never drawn. At 390 the row action wraps under the text.",
+          "evidence": "spec-settings §1.2, §4.1 (COV-26 measurements); no board",
+          "principle": "Criterion 1",
+          "change": "Draw `Security-linking` at 390 and 1440.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-settings §1.2, §4.1, §6.3 still \"copy\"; no `Security-linking` board"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "The provider-error note's support link has no topic. spec-recovery §15.1 lists `provider` for settings link errors, while Part A §4.5 routes references through `error`.",
+          "evidence": "spec-settings §4.2 \"Provider error\" row; spec-recovery §15.1; Part A §4.5",
+          "principle": "Criterion 6",
+          "change": "State `topic=provider&ref=…` (or `error`) in §4.2.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-settings §4.2 `topic=provider&ref=9F2C-41AB-7D03&from=S8`; spec-recovery §15.1"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Base `Security` foot lacks the `role=alert` paragraph used by \"failure before the redirect\".",
+          "evidence": "`Security.dc.html` `#providers .ra-section-foot`",
+          "principle": "WCAG 4.1.3",
+          "change": "As S-A: draw both paragraphs.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "Closed by ruling B-40 (reason accepted)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "Reserving a second description line leaves a visible empty band in not-linked rows at 1440.",
+          "evidence": "`Security` Microsoft row; `Security-recovered` Google row",
+          "principle": "Aesthetic integrity",
+          "change": "Fill the reservation with content: \"Not linked.\" on line 1 and \"Works with a work, school or personal account.\" on line 2, so heights match without blank space.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Security` `#providers` at 1440 (screenshot)"
+        }
+      ]
+    },
+    {
+      "id": "R-A",
+      "name": "Can't get the code (Recover, -mobile, -dark, Verify-help)",
+      "round1": 8.6,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The two stale normative sentences are gone (spec-recovery §2.2 step 4 now follows B-18; §7.3 follows B-25). One code-screen grammar (B-39) is written once in Part A §4.7 and drawn on `Verify-help`, `Recover-code` and `Provider-link-code`, with the alternatives below the commit and Tab going code → commit → alternatives on all three. New: B-43's divider fix doesn't reach R1. The rule is `form + .ri-or` and R1's commit is a `div.ri-commit`, so a failure line in R1's slot (a specified state) still sits flush on \"or\" at every width.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "Normative text contradicts rulings: step-up methods (§2.2 vs B-18) and settings screen C (§7.3 vs §15.6, B-25).",
+          "evidence": "spec-recovery §2.2 step 4; §7.3 last bullet; Part B B-18, B-25",
+          "principle": "Criterion 6",
+          "change": "Edit both sentences to the rulings.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-recovery §2.2 step 4, §7.3; grep"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Code-entry screens in one product use two grammars: `Verify-help` puts \"Can't get the code?\" below the commit as a switch line (Tab: input, commit, link); `Provider-link-code` puts \"Use a passkey instead · Can't get the code?\" between the meta and the commit (Tab: input, two alternatives, commit).",
+          "evidence": "`Verify-help` vs `Provider-link-code`; Tab probes at 1440",
+          "principle": "Consistency and standards (Nielsen 4); WCAG 3.2.3 Consistent Navigation",
+          "change": "Pick one placement for code alternatives across Verify, P6, A3's code step and R4 (the AS step-up pattern is fine) and state it once in Part A §4.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "Part A §4.7 code-screen grammar; rig keyboard passes on `Verify-help`, `Recover-code`, `Provider-link-code`"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "R1's status slot still sits flush on the \"or\" divider, so a failure line (passkey canceled, passkey failure, provider offline) captions the divider instead of the button. B-43 missed this page.",
+          "evidence": "`Recover`, `-mobile`, `-dark`: slot 342–362 and \"or\" 362–382 at 1440; 310–330 and 330–350 at 390 (probe; injected alert line, screenshot). `edges.css` line 523 matches only `form + .ri-or`",
+          "principle": "Gestalt proximity; criterion 5; B-43",
+          "change": "Widen the rule to `:is(form, .ri-commit) + .ri-or { margin-top: 12px }` and update Part A §4.1.",
+          "round": 2,
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "R-B",
+      "name": "Recovery request steps (Recover-account, -email, -code, -details*, -limited*)",
+      "round1": 8.1,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "Medium-high",
+      "grading": "re-graded",
+      "reasoning": "R2's L2 state uses the canonical \"This network has made 30 attempts in an hour.\" with the countdown on **Continue in 41:12** (B-44), and R3's L1 line is B-34's. R5 has no `maxlength`; lengths are checked on submit and pastes are never cut. The time-limit warning is drawn once on `Signin-timeout-warning`, and R2–R5 point to it with their own \"You have 30 more minutes.\". The expiry alerts follow B-38 but are still copy-only, and the visible \"Send request at 9:15 AM\" still omits \"tomorrow\".",
+      "issues": [
+        {
+          "severity": "must-fix",
+          "issue": "Rate-limit line contradicts binding ruling B-34. R2 uses \"This network tried to sign in 30 times in an hour.\"",
+          "evidence": "spec-recovery §3.2 L2 row (COV-16 \"E9's L2 line verbatim, today 'This network tried to sign in 30 times in an hour.'\"); Part B B-34",
+          "principle": "Criterion 2 (final copy), criterion 6 (buildable without asking)",
+          "change": "Use B-34's line everywhere it applies (\"You've asked for 5 codes in an hour.\" per address; \"This network has made 30 attempts in an hour.\" per network, followed by the countdown or clock time) and delete the variants from the domain specs and Part A.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-recovery §3.2 L2 row; grep finds the old line only in the fix log"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "`maxlength` on R5 contradicts the spec's too-long errors, and it truncates pastes silently.",
+          "evidence": "`Recover-details.dc.html` inputs `maxlength=100/200/100/100`, textarea `1000`; spec-recovery §3.5 \"Too long\" row; spec-settings §2.1 (no `maxlength`: \"a pasted long name would be cut silently\")",
+          "principle": "WCAG 3.3.1 Error Identification; consistency",
+          "change": "Remove `maxlength` and validate on submit with the specified errors, as rename does.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Recover-details.dc.html` has no `maxlength`; spec-recovery §3.5"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "The B-29 time-limit warning (\"Still there? This page times out in 2:00.\" + an inline **Keep going** button) is a new element in the slot with its own CSS, but no board draws it.",
+          "evidence": "spec-edge §3.6; `edges.css` `.ri-edge-slot-action`; Part A §5.3 limits copy-only states to swaps \"with no new element\"",
+          "principle": "Criterion 1 (real states), criterion 6; WCAG 2.2.1",
+          "change": "Draw it once (e.g. on `Verify-help` or a copy of `Main`), with Keep going focused, at 1440 and 320.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Signin-timeout-warning` (see E1); spec-recovery §3.2, §3.3, §3.5, §15.3"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "Visible \"Send request at 9:15 AM\" omits \"tomorrow\"; only the sr suffix and the note below carry it.",
+          "evidence": "`Recover-limited` at 390 and 1440",
+          "principle": "Information parity",
+          "change": "If it fits at 288 px, show \"Send request tomorrow at 9:15 AM\"; otherwise keep the note directly under the button.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Recover-limited` still \"Send request at 9:15 AM\" with sr \", tomorrow\""
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The first-paint expiry alerts (\"This took too long\" on R2, \"Confirm your new email again\" on R3) are copy-only.",
+          "evidence": "spec-recovery §3.2, §3.5",
+          "principle": "Criterion 1",
+          "change": "Optional board for one of them.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-recovery §3.2, §3.5 (copy; focus now per B-38)"
+        }
+      ]
+    },
+    {
+      "id": "R-C",
+      "name": "Request status pages (Recover-review, -review-cancel, -approved*, -completed, -declined, -expired)",
+      "round1": 7.9,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "B-36 is now a designed end state. `Recover-expired` (R10c) sits on the status-page frame (mascot 689,64 / 164,32, `h1` 166 / 134 on two balanced lines) with the exclamation badge, a lede that gives the reason without blame, **Start a new request** as the filled primary (no wait) and **Contact support** second (\"Contact support, opens in a new tab\"). The page is clean in the forced-dark build and under forced colours. The surrounding system is specified end to end: the lifecycle row, the open-request lifetime, emails #16 and #17, token behaviour on all four routes, the support queue's close date, the data model and an idempotent expiry job. R6, R6a, R6b and R12 each say what they show after an expiry. R6a is drawn (`Recover-review-cancel`) in the requester's words; R6 and R7 link to it, and Keep the request goes back to R6. Remaining debits are small: R9's dated outline button, R6a's second button 40 px under the commit (as on R12), near-identical subjects for emails #15 and #16, and Part A's R15 row still counting 15 emails (CC-N1).",
+      "issues": [
+        {
+          "severity": "must-fix",
+          "issue": "Ruling B-36 (request expires after 7 days undecided; decline-style notice; new request allowed at once) has no page or email specification.",
+          "evidence": "Part B B-36; spec-recovery §3.6–§3.9 and §4.1 have no expired row; R2 already says \"open for up to 7 days\"",
+          "principle": "Criterion 1 (real states), criterion 2",
+          "change": "Add R-expired: `h1`, lede, badge, actions (Start a new request, no wait; Contact support), the status-token behaviour and emails to the new and the old address.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Recover-expired` board; spec-recovery §2.3 (6f), §2.4, §3.6 state row, §3.9 R10c and the token paragraph, §3.10 \"already closed\", §4.1 #16–#17, §5.1–§5.2, §9.2 data model and expiry job, §15.4; Part A §3.1 R10c, §4.9"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "On the canvas, the requester's Cancel request opens the owner's confirm page and copy. R6a is copy-only.",
+          "evidence": "`Recover-review`, `Recover-approved` → `Recover-cancel.dc.html`; spec-recovery §3.6 (\"it carries the owner's copy\")",
+          "principle": "Criterion 6 (journeys); match between system and world",
+          "change": "Draw `Recover-review-cancel` (R6a: \"Cancel your request?\", Keep the request) and relink.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Recover-review-cancel` drawn; `Recover-review` and `Recover-approved` → `Recover-review-cancel.dc.html`; Keep the request → `Recover-review.dc.html` (grep); Tab: Cancel request, Keep the request"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "R9's unavailable \"New request on November 12\" looks like a broken outline button.",
+          "evidence": "`Recover-declined` at 390",
+          "principle": "Signifiers",
+          "change": "Consider a sentence (\"You can start a new request on November 12.\") until the day, then the button.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Recover-declined` unchanged; spec-recovery §3.9 R9 table"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "On R6a, Keep the request sits 40 px below Cancel request because the reserved slot lies between them. It's the same pattern as R12 (R-D's open nice-to-have), now on a second page.",
+          "evidence": "`Recover-review-cancel` at 1440: commit 466–510, slot 518–538, Keep the request from 550",
+          "principle": "Proximity",
+          "change": "Accept for slot stability and say so once in Part A §4.1, or move the slot under the second button on two-button confirms.",
+          "round": 2,
+          "status": "new"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "Emails #15 (\"We couldn't finish your Richie recovery\": the change is blocked, support is on it) and #16 (\"We couldn't finish your Richie recovery request in time\": the request is closed, start again) have near-identical subjects for opposite outcomes.",
+          "evidence": "spec-recovery §15.5 (#15), §4.1 (#16)",
+          "principle": "Recognition; match between system and world",
+          "change": "Give #15 the R7a page's words: \"We need to check something before changing your Richie email\".",
+          "round": 2,
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "R-D",
+      "name": "Old-address alert and cancel (Email-recovery-alert, Recover-cancel, Recover-owner-view, Recover-canceled)",
+      "round1": 8.3,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The cancel path has one button name everywhere (\"Cancel this request\", B-10). spec-recovery §4.3 states the email CTA once (a pill, `border-radius` 22 px), and \"This wasn't me\" survives only on S6. R6b is drawn (`Recover-owner-view`): \"We're reviewing this request\", the masked New email (sr \"j, hidden, at rivera.studio\"), no Account row, and Cancel this request back to R12. R12's Keep the request now opens it, so the old mailbox learns nothing beyond the email. The 40 px reserved slot between R12's two buttons is unchanged.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "Stale normative text contradicts B-10 and the board.",
+          "evidence": "spec-recovery §4.3 table row (\"This wasn't me (default lg, Signal fill… radius 10…)\"); §2.1 map; §5.1 step 7; §7.4 row; board `Email-recovery-alert` draws \"Cancel this request\" as a pill",
+          "principle": "Criterion 2, criterion 6",
+          "change": "Update the four places; state pill or radius 10 for the email CTA once.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-recovery §2.1, §4.3, §5.1, §7.4; grep"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "The canvas shows the owner the requester's view, with the new address in full, after Keep the request.",
+          "evidence": "`Recover-cancel` Keep the request → `Recover-review.dc.html`; spec-recovery D-R10, §3.6 owner view",
+          "principle": "Part A §1.7 principle 5 (reveal no more)",
+          "change": "Draw R6b (masked New email, no Account row) and relink.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Recover-cancel` → `Recover-owner-view.dc.html`; `Recover-owner-view` markup; spec-recovery §3.6 R6b, D-R10"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "R12's 40 px reserved slot between Cancel the request and Keep the request detaches the second button.",
+          "evidence": "`Recover-cancel` at 1440: primary ends 586, Keep the request starts 626",
+          "principle": "Proximity",
+          "change": "Accept, or put Keep above the slot as a plain link.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Recover-cancel` at 1440: primary 542–586, slot 594–614, Keep from 626"
+        }
+      ]
+    },
+    {
+      "id": "R-E",
+      "name": "Recently recovered (Security-recovered)",
+      "round1": 8.6,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "R14 gained B-38: the alert `section` takes focus with `aria-labelledby` and `aria-describedby`, and Chromium names it by its title and reads the checklist as its description. Neither round-1 nice-to-have was taken: the content still measures 1808 px on the 1800 px board, and the alert still doesn't link Add a passkey. The score stays.",
+      "issues": [
+        {
+          "severity": "nice-to-have",
+          "issue": "Board height is 8 px short of its content.",
+          "evidence": "`Security-recovered` fixed render 1808 vs canvas 1440x1800",
+          "principle": "Canvas fidelity",
+          "change": "Set the board to 1900.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Security-recovered.fixed`: scrollHeight 1808, canvas 1440 × 1800 (probe)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The alert asks the person to check passkeys but not to add one, though that's the best protection against a second recovery.",
+          "evidence": "`Security-recovered` alert; spec-recovery R8 note, email #5",
+          "principle": "Recognition over recall",
+          "change": "Add \"Add a passkey\" as a link to `#passkeys` in the alert description.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Security-recovered` alert (screenshot); spec-recovery §3.12"
+        }
+      ]
+    },
+    {
+      "id": "P-A",
+      "name": "Sign in with Google and Microsoft (Main*, Signin-redirecting, Signin-provider-*)",
+      "round1": 8.2,
+      "score": 8.7,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "The L6 alert's description is B-34's line plus the wait (\"This network has made 30 attempts in an hour. Try again in 42 minutes, or sign in with a passkey.\"). P2 and P3 implement B-38 on the board: a `role=\"group\"` container, `tabindex=\"-1\"`, labelled by its title and described by the description and, on P3, the reference. Chromium reads the next step and \"Reference 9F2C-41AB-7D03\" with the title. The Google registration conflict is resolved. Brand sign-off is a release gate (B-42), noted with no design deduction. New: B-43's 12 px pushed P3's content to 1006 px on a 1000 px board (light and dark), and spec-sso §1 still lists 994.",
+      "issues": [
+        {
+          "severity": "must-fix",
+          "issue": "Rate-limit line contradicts binding ruling B-34. The L6 alert uses \"This network has made 30 failed sign-in attempts in an hour.\"",
+          "evidence": "spec-sso §3.5 L6 alert description; Part B B-34",
+          "principle": "Criterion 2 (final copy), criterion 6 (buildable without asking)",
+          "change": "Use B-34's line everywhere it applies (\"You've asked for 5 codes in an hour.\" per address; \"This network has made 30 attempts in an hour.\" per network, followed by the countdown or clock time) and delete the variants from the domain specs and Part A.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "spec-sso §3.5 description row"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Page alerts move focus to the alert title paragraph only. The description, which carries the next step, and the reference are not announced.",
+          "evidence": "`Signin-provider-canceled`, `Signin-provider-error`: \"The sign-in didn't finish. Try again in a moment, or use your email or a passkey.\" is not announced; `<p data-slot=alert-title tabindex=-1>` with no `aria-describedby`; alert has no role by design (Part A §4.7, §4.10)",
+          "principle": "WCAG 4.1.3, 1.3.1; criterion 4 (screen-reader-sensible errors)",
+          "change": "Give the title `aria-describedby` pointing at the description (and the reference row on P3), or focus the alert container labelled by its title and described by its description.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Signin-provider-canceled`, `Signin-provider-error(-dark)` markup; CDP name and description; spec-sso §3.2, §3.3, §8.4, §13.1"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Brand and legal sign-off is still open for the custom Google button (our font, 16 px, our edge colour) and for \"Sign up with Microsoft\", which is not a Microsoft-listed label.",
+          "evidence": "Part A §8 Q3, Q4, P-1, P-2; spec-sso OQ-6",
+          "principle": "Criterion 2 (final copy); third-party branding terms",
+          "change": "Get the Google and Microsoft brand checks before build freeze; keep the fallback label (\"Sign in with Microsoft\" on A2) ready as a text swap.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "Reclassified by B-42 as a brand and legal release gate; noted, no design deduction; spec-sso OQ-6"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The L6 state (alert plus three countdown method buttons) is a combination of drawn parts but isn't drawn itself.",
+          "evidence": "spec-sso §3.5",
+          "principle": "Criterion 1",
+          "change": "Optional board; it's the busiest version of Sign in.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-sso §3.5 (copy)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "P3's content (1006 px) now runs past its 1000 px board, so the bottom of the footer box is cut on the canvas (the links stay visible), and spec-sso §1 still says 994.",
+          "evidence": "`Signin-provider-error.fixed`, `-dark.fixed`: scrollHeight 1006 at 1440 (probe); spec-sso §1 table",
+          "principle": "Canvas fidelity; criterion 6 (trustworthy measurements)",
+          "change": "Set both boards to 1100 (or 1040) and update §1's measured height.",
+          "round": 2,
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "P-B",
+      "name": "Welcome back with a provider (Signin-remembered-provider)",
+      "round1": 8.3,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "Medium-high",
+      "grading": "re-graded",
+      "reasoning": "The chip no longer truncates the person's own address: at 390 it wraps after the @ (\"jamie.rivera@\" / \"northwind.coffee\"), and spec-sso §4 states the rule for every width. The P2, P3 and L6 alerts on A4 follow B-38. Unchanged: Tab reaches Not you? before Sign in with Google (visual order, accepted), and there's no dark or 390 board for a page mostly seen on phones.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "The account chip truncates the person's own address at the most common phone width.",
+          "evidence": "`Signin-remembered-provider` at 390: \"jamie.riv… @northwind.coffee\"; at 320 it wraps after the @",
+          "principle": "Recognition; WCAG 1.4.10 spirit (no loss of information)",
+          "change": "Let the chip wrap after the @ at every width (as it does at 320), or move Not you? under the chip.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Signin-remembered-provider` at 390 (screenshot); spec-sso §4 chip row; `edges.css` §9"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "No dark or 390 board for a page people mostly see on their own phone.",
+          "evidence": "B-22",
+          "principle": "Criterion 3",
+          "change": "Add a `-mobile` wrapper.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "Harness only (B-22)"
+        }
+      ]
+    },
+    {
+      "id": "P-C",
+      "name": "Create account with a provider (Signup*, Signup-finish*)",
+      "round1": 8.4,
+      "score": 8.4,
+      "verdict": "Ship",
+      "confidence": "Medium-high",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Signup`, `-mobile`, `Signup-finish` and `-mobile` are clean in both builds. B-43 doesn't stack on A2: the legal-line rule keeps \"or\" 24 px below the legal line at 1440, 390 and 320. The A3 code step now has the B-39 lede in spec-sso §6.3. No regression. The brand item is now a release gate (B-42); I'd stop deducting for it, but kept the round-1 score as the spot-check rule asks. The two nice-to-haves are open.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "Brand and legal sign-off is still open for the custom Google button (our font, 16 px, our edge colour) and for \"Sign up with Microsoft\", which is not a Microsoft-listed label.",
+          "evidence": "Part A §8 Q3, Q4, P-1, P-2; spec-sso OQ-6",
+          "principle": "Criterion 2 (final copy); third-party branding terms",
+          "change": "Get the Google and Microsoft brand checks before build freeze; keep the fallback label (\"Sign in with Microsoft\" on A2) ready as a text swap.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "Reclassified by B-42 as a brand and legal release gate; noted, no design deduction"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The A3 code step for an unconfirmed Microsoft email changes the commit to Create account and the alternative to Use a different email, on P6's layout, and it's copy-only.",
+          "evidence": "spec-sso §6.3",
+          "principle": "Criterion 1",
+          "change": "Optional board; it's a distinct branch with its own exits.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-sso §6.3 still copy-only (lede now per B-39)"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "The legal line floats far from the commit it qualifies.",
+          "evidence": "`Signup` at 320: Create account ends at 726, the legal line starts about 60 px lower",
+          "principle": "Proximity",
+          "change": "Accept for slot stability, or move the legal line above the commit.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "`Signup` legal line unchanged"
+        }
+      ]
+    },
+    {
+      "id": "P-D",
+      "name": "Provider dead ends (Provider-no-account, -no-email, -not-linked)",
+      "round1": 8.6,
+      "score": 8.6,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "spot-checked (round-1 score carried, no regression found)",
+      "reasoning": "Spot-checked, score carried from round 1. `Provider-no-account`, `-no-email` and `-not-linked` are clean; the `h1` runs 2 lines at 1440 and 390; frame unchanged. No regression. Both nice-to-haves are open.",
+      "issues": [
+        {
+          "severity": "nice-to-have",
+          "issue": "P4's primary is drawn as a provider method button but doesn't go to the provider, and nothing on the page is filled.",
+          "evidence": "`Provider-no-account` → `Signup-finish.dc.html`; spec-sso departure 14",
+          "principle": "Signifiers",
+          "change": "Accept (argued), or label it \"Continue with this Google account\" to say there is no second trip.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "spec-sso §7.1 unchanged"
+        },
+        {
+          "severity": "nice-to-have",
+          "issue": "No mobile or dark boards for the three pages.",
+          "evidence": "B-22",
+          "principle": "Criterion 3",
+          "change": "Optional.",
+          "round": 1,
+          "status": "not fixed",
+          "statusEvidence": "No mobile or dark boards"
+        }
+      ]
+    },
+    {
+      "id": "P-E",
+      "name": "Link a provider at sign-in (Provider-link*, Provider-link-code)",
+      "round1": 8.4,
+      "score": 8.8,
+      "verdict": "Ship",
+      "confidence": "High",
+      "grading": "re-graded",
+      "reasoning": "P6 now says what the code is for before the button: \"Enter the code we sent to jamie.rivera@northwind.coffee to link Microsoft.\" (2 lines at 390), then the commit **Link Microsoft**. It follows the shared code-screen grammar: Cancel stacked under the commit, the alternatives as one switch line below it. Tab goes code, Link Microsoft, Cancel, Use a passkey instead, Can't get the code?.",
+      "issues": [
+        {
+          "severity": "should-fix",
+          "issue": "P6 doesn't say what the code is for until the commit.",
+          "evidence": "`Provider-link-code` `h1` \"Check your email\", lede \"Enter the code we sent to jamie.rivera@northwind.coffee.\"",
+          "principle": "Visibility of system status; WCAG 2.4.6",
+          "change": "Lede: \"Enter the code we sent to … to link Microsoft.\" (check it stays 2 lines at 390).",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "`Provider-link-code` lede (screenshot); spec-sso §7.3"
+        },
+        {
+          "severity": "should-fix",
+          "issue": "Code-entry screens in one product use two grammars: `Verify-help` puts \"Can't get the code?\" below the commit as a switch line (Tab: input, commit, link); `Provider-link-code` puts \"Use a passkey instead · Can't get the code?\" between the meta and the commit (Tab: input, two alternatives, commit).",
+          "evidence": "`Provider-link-code` vs `Verify-help` and `Recover-code`; Tab probes at 1440",
+          "principle": "Consistency and standards (Nielsen 4); WCAG 3.2.3 Consistent Navigation",
+          "change": "Pick one placement for code alternatives across Verify, P6, A3's code step and R4 (the AS step-up pattern is fine) and state it once in Part A §4.",
+          "round": 1,
+          "status": "fixed",
+          "statusEvidence": "Part A §4.7 (B-39); rig keyboard pass at 390"
+        }
+      ]
+    }
+  ],
+  "crossCutting": [
+    {
+      "rank": 1,
+      "severity": "must-fix",
+      "issue": "The precedence rule is circular and the last rulings never reached the domain specs. Part A says it wins over domain specs; Part B and Part A §3.1 say a domain spec's departure wins; spec-settings and spec-sso say Part A wins. B-34, B-35 and B-36 exist only in Part B, so two L1 lines and three L2/L6 lines are in play, and a drawn board (`Signin-limited`) contradicts the binding ruling.",
+      "evidence": "spec.md line 7 vs Part B intro and §3.1 note; spec-settings line 5; spec-sso line 3; spec.md §3.5 wording note; B-34, B-35, B-36; `Signin-limited` slot line",
+      "principle": "Criterion 6 (build without asking); criterion 2",
+      "change": "State one order (Part B rulings, then domain specs, then Part A). Then reconcile: write every ruling into the page tables engineers read, and fix the drawn E9 line.",
+      "units": "All, most visibly E9/E10, R-B, P-A",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "B-37 text in spec.md line 7 and the Part B intro, spec-edge line 5, spec-settings line 5, spec-recovery line 5, spec-sso line 3; one L1 and one L2/L6 line in every domain spec; `Signin-limited` corrected. Residue in Part A logged as CC-N1"
+    },
+    {
+      "rank": 2,
+      "severity": "must-fix",
+      "issue": "B-36's expired recovery request is a new end state with no page, actions, badge or emails.",
+      "evidence": "spec.md B-36; spec-recovery §3.6–§3.9, §4.1, §15.4",
+      "principle": "Criterion 1 (real states)",
+      "change": "Specify R-expired copy and both emails; add the status-token behaviour for it.",
+      "units": "R-C",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "See R-C"
+    },
+    {
+      "rank": 3,
+      "severity": "should-fix",
+      "issue": "First-paint page alerts focus only the title paragraph. The description, which says what to do next, and P3's reference are not announced.",
+      "evidence": "`Signin-provider-canceled`, `Signin-provider-error(-dark)`; E3, L6, R2 and R3 expiry alerts on the same pattern (Part A §4.7, §4.10)",
+      "principle": "WCAG 4.1.3, 1.3.1; criterion 4",
+      "change": "Add `aria-describedby` from the title to the description (and reference), or focus the alert container labelled and described.",
+      "units": "P-A, E2 (E3), R-B, P-C, P-B",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "B-38; P2, P3, R14 boards (CDP names and descriptions); E3, L6 and the recovery expiry alerts in their specs"
+    },
+    {
+      "rank": 4,
+      "severity": "should-fix",
+      "issue": "The WCAG 2.2.1 time-limit warning adds an inline Keep going control inside the status slot on every timed page, and it's never drawn.",
+      "evidence": "spec-edge §3.6; `.ri-edge-slot-action`; Part A §5.3 copy-only rule",
+      "principle": "Criterion 1; WCAG 2.2.1",
+      "change": "Draw it once at 1440 and 320 with focus on Keep going; reference that board from every timed page.",
+      "units": "E1, R-B, P-C, P-E and every timed page",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "`Signin-timeout-warning`; spec-edge §3.6; Part A §4.7, §5.3"
+    },
+    {
+      "rank": 5,
+      "severity": "should-fix",
+      "issue": "Code-entry screens disagree on where the alternatives sit and on Tab order, and P6 drops its purpose from the head.",
+      "evidence": "`Verify-help` (input, commit, link) vs `Provider-link-code` (input, alternatives, commit) vs `Recover-code` (input, commit, note)",
+      "principle": "Consistency and standards; WCAG 3.2.3",
+      "change": "One code-screen grammar in Part A §4, applied to Verify, P6, A3's code step and R4; name the purpose in P6's lede.",
+      "units": "R-A, P-E, P-C",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "B-39; Part A §4.7; keyboard passes on `Verify-help`, `Recover-code`, `Provider-link-code`"
+    },
+    {
+      "rank": 6,
+      "severity": "should-fix",
+      "issue": "Normative spec text is stale or contradictory in at least eight places, so engineers will have to ask.",
+      "evidence": "spec-recovery §2.1/§2.3/§5.1/§7.4 and §4.3 (\"This wasn't me\", radius 10) vs B-10; §2.2 step-up via provider vs B-18; §7.3 screen C vs §15.6; spec-settings §9.2 `AddOpenIdConnect` vs spec-sso §13.2 `AddGoogle`; spec-settings §11 wrap-2 vs §2.2 wrap-all; `Recover-details` `maxlength` vs §3.5 too-long errors; §15.1 topic list lacks B-35's `signin-changed-not-me`; settings provider-error topic unstated",
+      "principle": "Criterion 6",
+      "change": "One reconciliation pass with a checklist; delete superseded sentences rather than annotating them.",
+      "units": "R-A, R-B, R-D, S-A, S-C, P-A",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "All eight cleared (grep; see R-A, R-B, R-D, S-A, S-C). New stale lines are listed in CC-N1"
+    },
+    {
+      "rank": 7,
+      "severity": "should-fix",
+      "issue": "Mobile drawer and action-sheet boards have bottom-up Tab order. The fix exists only as handoff text (B-30), so anyone copying the board markup ships a focus-order failure.",
+      "evidence": "Tab probes at 390: `Session-expired-mobile`, `Security-rename-error-mobile`, `Profile-email-code-mobile` (y 832 before y 780)",
+      "principle": "WCAG 2.4.3",
+      "change": "Draw mobile DOM order on `-mobile` boards, or label the board's order non-normative.",
+      "units": "E2, S-A, S-B",
+      "round": 1,
+      "status": "fixed",
+      "statusEvidence": "390-only boards (`Security-rename-error-mobile`, `Profile-email-code-mobile`) draw the commit first in the DOM. Wrapper boards (`Session-expired-mobile`, `Profile-email-taken-mobile`) are declared non-normative for DOM order in their spec rows (B-41), the alternative round 1 offered; the wrappers themselves carry no marker"
+    },
+    {
+      "rank": 8,
+      "severity": "should-fix",
+      "issue": "A filled status line touches the \"or\" divider (0 px), so the message groups with the divider instead of with the button.",
+      "evidence": "Measured: slot 418–438, \"or\" 438–458 at 1440; 386–406 / 406–426 at 390",
+      "principle": "Gestalt proximity; criterion 5",
+      "change": "Add 8–12 px above `.ri-or` when it follows `.ri-commit`; it's one shared rule and nothing else moves.",
+      "units": "E7/E8, E9/E10 (and every Sign in-family state with a slot message)",
+      "round": 1,
+      "status": "partly fixed",
+      "statusEvidence": "Fixed on all nine Sign in-family boards (12 px, measured). Missed on `Recover`, `-mobile`, `-dark`: the rule is `form + .ri-or` and R1's commit is a `div` (see R-A)"
+    },
+    {
+      "rank": 9,
+      "severity": "should-fix",
+      "issue": "Canvas links misrepresent journeys. The requester's Cancel request lands on the owner's page. The owner's Keep the request lands on the requester's view, with the full address. The sidebar Sign out is unwired, and settings triggers don't open their overlay boards.",
+      "evidence": "`Recover-review`/`Recover-approved` → `Recover-cancel`; `Recover-cancel` → `Recover-review`; `Account-sidebar` Sign out `<button>`; `Security` Rename/Unlink have no targets",
+      "principle": "Criterion 6 (links stand in for navigation)",
+      "change": "Draw R6a and R6b and relink; wire Sign out to `Signedout`; link Rename, Remove and Unlink to their overlays.",
+      "units": "R-C, R-D, E13, S-A, S-C",
+      "round": 1,
+      "status": "partly fixed",
+      "statusEvidence": "The two misleading links are fixed (R6a and R6b drawn and relinked). Still unwired: the sidebar Sign out (`<button>`), the `Signedout` note (→ `Security`), the Security Rename, Remove and Unlink triggers, and R6a's form (posts to `#`, so J23 stops before R10b). These are walkability only: now nice-to-have"
+    },
+    {
+      "rank": 10,
+      "severity": "should-fix",
+      "issue": "Google and Microsoft brand sign-off is still open for the custom buttons and the sign-up label.",
+      "evidence": "Part A §8 Q3/Q4, P-1/P-2; spec-sso OQ-6",
+      "principle": "Criterion 2; third-party brand terms",
+      "change": "Close before build freeze; keep the fallback labels as text swaps.",
+      "units": "P-A, P-C, S-C",
+      "round": 1,
+      "status": "not fixed",
+      "statusEvidence": "Reclassified by B-42 as a brand and legal release gate; noted, no design deduction"
+    },
+    {
+      "rank": 11,
+      "severity": "nice-to-have",
+      "issue": "The handoff is about 4,400 lines across five files, layered as rulings that override departures that override the foundation. Normative content lives under \"Phase 4 additions\" (spec-recovery §15) and revision notes.",
+      "evidence": "spec.md 1,175 lines; spec-edge 867; spec-settings 698; spec-recovery 934; spec-sso 750",
+      "principle": "Criterion 6",
+      "change": "After reconciliation, produce one per-page sheet (route, title, copy, states, focus, live regions, limits) generated from the specs.",
+      "units": "All",
+      "round": 1,
+      "status": "not fixed",
+      "statusEvidence": "Now 4,639 lines (spec.md 1,198; spec-edge 895; spec-settings 725; spec-recovery 1,047; spec-sso 774); spec-recovery §15 still holds the support contract; no per-page sheet"
+    },
+    {
+      "rank": "N1",
+      "round": 2,
+      "status": "new",
+      "severity": "should-fix",
+      "issue": "Part A didn't absorb this round's rulings in six places, against B-37's own rule that rulings reach the tables engineers read. Precedence settles each one, but an engineer reading Part A's grammar would build the wrong divider spacing.",
+      "evidence": "(1) §3.1 S12 row: the topic is \"not in spec-recovery §15.1's fixed topic list; not settled\", although B-35 settled it. (2) §3.1 R15 row: \"15 in all\", without #16 and #17. (3) §3.5 \"Request open time\": \"spec-recovery §2.4 has no lifetime row\", which it now has. (4) §4.1 spacing \"slot → 'or' 0\" and both wireframes with \"or\" at 438 / 406, against B-43 and the measured 450 / 418. (5) §4.6 \"an always-present … role=alert\" against B-40. (6) §5.1 and §5.2 say 80 boards and omit the four new boards (also spec-edge §12.4 and spec-sso §15 layout tables at 438 / 406; spec-settings §8 field-slot row)",
+      "principle": "Criterion 6",
+      "change": "One sync pass over Part A §3.1, §3.5, §4.1, §4.6 and §5.2 against B-35 to B-44; delete rather than annotate",
+      "units": "All; most visibly E7/E8, E9/E10, R-A, R-C"
+    },
+    {
+      "rank": "N2",
+      "round": 2,
+      "status": "new",
+      "severity": "nice-to-have",
+      "issue": "Three boards' content runs past their canvas size, so the bottom is cut on the canvas (on P3 only the footer's bottom padding).",
+      "evidence": "`Signin-provider-error`, `-dark`: 1006 on 1000 (new since B-43); `Security-recovered`: 1808 on 1800 (round 1, unchanged). Every other desktop board fits; the 390 wrappers scroll by design (probe of all 84 against `canvas.json`)",
+      "principle": "Canvas fidelity",
+      "change": "Grow the three boards (to 1100 and 1900) and update spec-sso §1",
+      "units": "P-A, R-E"
+    }
+  ]
+}

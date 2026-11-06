@@ -384,12 +384,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# VS Code files for those working on multiple tools
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# VS Code (ignored everywhere, at any depth)
+.vscode/
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -402,9 +398,9 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# JetBrains Rider
-*.sln.iml
+# JetBrains IDEs (Rider, WebStorm, ...) — ignored everywhere, at any depth
 .idea/
+*.iml
 
 ##
 ## Visual studio for Mac
@@ -482,3 +478,22 @@ $RECYCLE.BIN/
 *.swp
 # Playwright CLI output (may contain credentials)
 .playwright-cli/
+
+# Frontend: pnpm + Turborepo + Vite (frontend/)
+# Re-include Turborepo workspace packages; the NuGet `**/[Pp]ackages/*` rule above would otherwise ignore them
+!frontend/packages/*
+.pnp
+.pnp.js
+.turbo/
+.tanstack/
+dist/
+dist-ssr/
+coverage/
+*.local
+*.tsbuildinfo
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pem

@@ -1,0 +1,185 @@
+{
+  "round": 4,
+  "canvasVersion": "1793877977-4d5d",
+  "specRevision": 5,
+  "scope": "Profile only; other units carry their round 3 grades (no regression found from the account.css change).",
+  "overall": {
+    "score": 8.7,
+    "verdict": "Ship",
+    "note": "N3-01 and N2-02 are resolved. All 8 units ship; no open issues."
+  },
+  "weights": {
+    "visual": 0.12,
+    "consistency": 0.1,
+    "usability": 0.2,
+    "content": 0.1,
+    "accessibility": 0.15,
+    "responsive": 0.1,
+    "states": 0.13,
+    "handoff": 0.1
+  },
+  "units": [
+    {
+      "name": "Account shell",
+      "score": 8.7,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 8.5,
+        "consistency": 9.0,
+        "usability": 8.5,
+        "content": 9.0,
+        "accessibility": 9.0,
+        "responsive": 9.0,
+        "states": 8.0,
+        "handoff": 9.0
+      },
+      "issues": []
+    },
+    {
+      "name": "Profile",
+      "score": 8.7,
+      "verdict": "Ship",
+      "regraded": true,
+      "criteria": {
+        "visual": 8.0,
+        "consistency": 9.0,
+        "usability": 8.5,
+        "content": 9.0,
+        "accessibility": 9.0,
+        "responsive": 8.5,
+        "states": 9.0,
+        "handoff": 9.0
+      },
+      "issues": []
+    },
+    {
+      "name": "Sign-in and security",
+      "score": 8.7,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 8.0,
+        "consistency": 9.0,
+        "usability": 8.5,
+        "content": 9.0,
+        "accessibility": 8.5,
+        "responsive": 8.5,
+        "states": 9.0,
+        "handoff": 9.0
+      },
+      "issues": []
+    },
+    {
+      "name": "Confirm it’s you (step-up)",
+      "score": 8.9,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 8.0,
+        "consistency": 9.0,
+        "usability": 9.0,
+        "content": 9.0,
+        "accessibility": 9.0,
+        "responsive": 8.5,
+        "states": 9.5,
+        "handoff": 9.0
+      },
+      "issues": []
+    },
+    {
+      "name": "Preferences",
+      "score": 8.6,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 7.5,
+        "consistency": 9.0,
+        "usability": 8.5,
+        "content": 9.0,
+        "accessibility": 9.0,
+        "responsive": 8.5,
+        "states": 8.5,
+        "handoff": 9.0
+      },
+      "issues": []
+    },
+    {
+      "name": "Connected apps",
+      "score": 8.9,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 8.5,
+        "consistency": 9.0,
+        "usability": 9.0,
+        "content": 9.0,
+        "accessibility": 9.0,
+        "responsive": 9.0,
+        "states": 8.5,
+        "handoff": 9.0
+      },
+      "issues": []
+    },
+    {
+      "name": "Data and privacy",
+      "score": 8.5,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 8.0,
+        "consistency": 9.0,
+        "usability": 8.5,
+        "content": 9.0,
+        "accessibility": 8.5,
+        "responsive": 8.5,
+        "states": 8.0,
+        "handoff": 8.5
+      },
+      "issues": []
+    },
+    {
+      "name": "Account deletion lifecycle",
+      "score": 8.8,
+      "verdict": "Ship",
+      "regraded": false,
+      "criteria": {
+        "visual": 8.5,
+        "consistency": 9.0,
+        "usability": 9.0,
+        "content": 8.5,
+        "accessibility": 8.5,
+        "responsive": 8.5,
+        "states": 9.0,
+        "handoff": 9.0
+      },
+      "issues": []
+    }
+  ],
+  "reservedSpaceRationale": {
+    "verdict": "Acceptable",
+    "summary": "Spec §1.5 rule 8 ('Why empty space is kept') states the rule, names every place it shows, gives the user benefit (saving, an error or a status never pushes content someone is reading or about to tap) and tells engineers not to collapse it. It is applied consistently and measured to hold (no shift across saved, failed, removed and waiting states). The cost is a looser rhythm, most visible on Profile at desktop (~150 px under the name hint) and in Preferences at 320 (~125 px gaps). That is a deliberate trade, not a defect, so PR-1, PR-4, SE-2, ST-2 and PF-1 are closed. Optional later refinement: drawing Cancel and Save as unavailable in the clean name form would give the largest gap content without breaking the rule."
+  },
+  "phoneOrderRationale": {
+    "verdict": "Acceptable",
+    "summary": "Spec §1.4 now states that a labelled preview and errors next to Save matter more than keeping the preview above the on-screen keyboard, since the preview confirms a change but isn't needed to complete it. The preview sits about 420 px under First name at 390 (.ra-msgr y=784 vs field y=360), and the spec no longer claims otherwise."
+  },
+  "round3Issues": [
+    {
+      "id": "N3-01",
+      "status": "Resolved",
+      "evidence": "CSS reorder removed, so DOM order is the visual order; visible caption; save error directly under Save (.design/qa-out/eval-4-results/shots/Profile-save-failed@390x844@full.png); CSS, spec (§1.4 lines 233-241, §4.2 line 641, §7.2 row 24) and boards agree"
+    },
+    {
+      "id": "N2-02",
+      "status": "Resolved",
+      "evidence": "Fields and hint together; compact labelled preview after the form at 390, 375, 320 and 768, light and dark (shots/Main@390x844@full.png, Main@375x812@dark@full.png, Main@320x640@full.png, Main@768x1024@dark@full.png); rig: no overflow, no new findings on 12 Profile boards"
+    }
+  ],
+  "strengths": [
+    "On phones the Profile form now reads in DOM order, with the save error next to Save and a labelled preview; spec, CSS and boards agree.",
+    "No layout shift across Profile states at any width (#email-title stable at 962/984/1028/870/676 for 390/375/320/768/1280).",
+    "Every round 1-3 issue is closed across the area."
+  ],
+  "mustFix": []
+}

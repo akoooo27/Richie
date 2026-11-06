@@ -1,0 +1,145 @@
+{
+  "round": 2,
+  "canvasVersion": "1793860937-9254",
+  "specRevision": 4,
+  "overall": {
+    "score": 8.6,
+    "verdict": "Ship with fixes",
+    "note": "Both round 1 Majors (ST-1, DL-1) are resolved and no new Blocker or Major was found. The remaining items are Minors to fix during the build; most are spec-versus-board mismatches from the fix pass (N2-01, N2-02, N2-05, N2-06)."
+  },
+  "weights": {
+    "visual": 0.12,
+    "consistency": 0.10,
+    "usability": 0.20,
+    "content": 0.10,
+    "accessibility": 0.15,
+    "responsive": 0.10,
+    "states": 0.13,
+    "handoff": 0.10
+  },
+  "units": [
+    {
+      "name": "Account shell",
+      "score": 8.7,
+      "verdict": "Ship",
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 9.0, "responsive": 9.0, "states": 8.0, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Profile",
+      "score": 8.4,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 7.5, "consistency": 8.5, "usability": 8.5, "content": 9.0, "accessibility": 8.5, "responsive": 8.0, "states": 9.0, "handoff": 8.0 },
+      "issues": [
+        { "id": "PR-1", "severity": "Minor", "summary": "(Carried over, partly resolved.) A blank block of about 150 px remains under the name hint at desktop and under Last name on phones.", "evidence": ".design/qa-out/eval-2-results/shots/Main@1280x800@tab_1.png; shots/Main@390x844@full.png" },
+        { "id": "PR-4", "severity": "Minor", "summary": "(Carried over, partly resolved.) The copy is improved, but change-email step 1 still has about 100 px of empty body.", "evidence": "shots/Profile-email-change@1280x800.png" },
+        { "id": "N2-02", "severity": "Minor", "summary": "The new mobile order (preview between First name and Last name, via CSS order) isn't in the spec, which still says the stage stacks under the name fields. At 390 it also separates the two fields by about 470 px. Update the spec; consider a compact preview.", "evidence": "shots/Main@390x844@full.png; account.css @container (max-width: 619px) block; spec lines 288, 687" }
+      ]
+    },
+    {
+      "name": "Sign-in and security",
+      "score": 8.6,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.0, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 8.5, "responsive": 8.5, "states": 9.0, "handoff": 8.5 },
+      "issues": [
+        { "id": "SE-2", "severity": "Minor", "summary": "(Carried over, not resolved.) Empty reserved status slots still make section gaps uneven.", "evidence": "shots/Security@1440x900@full.png; #sessions-title unchanged at 688 (1440)" },
+        { "id": "N2-04", "severity": "Minor", "summary": "Q7's 'suggest adding a passkey as the way back in if email is lost' isn't in any copy; the empty passkeys row still says '…instead of waiting for a code.'", "evidence": "Spec line 1729 vs line 815; Security-no-passkeys" }
+      ]
+    },
+    {
+      "name": "Confirm it’s you (step-up)",
+      "score": 8.7,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.0, "consistency": 8.5, "usability": 9.0, "content": 9.0, "accessibility": 9.0, "responsive": 8.5, "states": 9.5, "handoff": 8.0 },
+      "issues": [
+        { "id": "ST-2", "severity": "Minor", "summary": "(Carried over, not resolved.) Screen A still has about 90-170 px of empty space under the note.", "evidence": "shots/Stepup@1280x800.png; shots/Stepup@390x844.png" },
+        { "id": "N2-03", "severity": "Minor", "summary": "Screen C always lists 'Use a passkey instead, if you've set one up.', though the button only shows with a passkey; hide the bullet for people without one. Also, §4.4 'The title is the same in every state' contradicts screen C's own title.", "evidence": "Spec lines 902, 950-951; Stepup-cant-get-code.dc.html" },
+        { "id": "N2-05", "severity": "Minor", "summary": "SE-3 says step-up opened from a confirm focuses its title, but the remove-passkey boards draw focus on 'Use a passkey' and on the code input, and §4.4 still says the code input autofocuses. State the rule per entry path.", "evidence": "Stepup.dc.html:27; Stepup-code.dc.html:29; spec lines 555, 931, 1630" }
+      ]
+    },
+    {
+      "name": "Preferences",
+      "score": 8.6,
+      "verdict": "Ship",
+      "criteria": { "visual": 7.5, "consistency": 9.0, "usability": 8.5, "content": 9.0, "accessibility": 9.0, "responsive": 8.5, "states": 8.5, "handoff": 9.0 },
+      "issues": [
+        { "id": "PF-1", "severity": "Minor", "summary": "(Carried over, not resolved; optional polish.) Large gaps between sections and a floating unsubscribe note.", "evidence": "shots/Preferences@320x640@full.png" }
+      ]
+    },
+    {
+      "name": "Connected apps",
+      "score": 8.9,
+      "verdict": "Ship",
+      "criteria": { "visual": 8.5, "consistency": 9.0, "usability": 9.0, "content": 9.0, "accessibility": 9.0, "responsive": 9.0, "states": 8.5, "handoff": 9.0 },
+      "issues": []
+    },
+    {
+      "name": "Data and privacy",
+      "score": 8.2,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.0, "consistency": 8.5, "usability": 8.0, "content": 9.0, "accessibility": 8.5, "responsive": 8.5, "states": 8.0, "handoff": 7.5 },
+      "issues": [
+        { "id": "N2-01", "severity": "Minor", "summary": "The delete dialog board puts the typed field above the consequences list, against the spec (list first, field scrolled into view). People confirm before reading what happens, and at 320 the list is partly below the fold. Build it as specified and fix the board.", "evidence": "Data-delete-confirm.dc.html (field before ul#delete-dlg-list); shots/Data-delete-confirm@1280x800.png, @320x640.png; spec lines 1060-1064" }
+      ]
+    },
+    {
+      "name": "Account deletion lifecycle",
+      "score": 8.5,
+      "verdict": "Ship with fixes",
+      "criteria": { "visual": 8.5, "consistency": 8.5, "usability": 8.5, "content": 8.5, "accessibility": 8.5, "responsive": 8.5, "states": 8.5, "handoff": 8.0 },
+      "issues": [
+        { "id": "N2-06", "severity": "Minor", "summary": "Signin-deleted 'Download your data' links to Export-request (the token page with the chip); the spec says Export-start with the address prefilled.", "evidence": "Signin-deleted.dc.html:23; spec line 1170" },
+        { "id": "N2-07", "severity": "Minor", "summary": "Precedence is unstated when a new account was already created with the same address during days 30-60. Read literally, Signin-deleted would intercept sign-in to that new account. State that a live account wins.", "evidence": "Spec lines 1164, 1170" },
+        { "id": "N2-08", "severity": "Minor", "summary": "Export-start's 'no deleted account' error reveals whether an address had an account deleted in the last 30 days. The trade-off is accepted for Signin-deleted but not stated for Export-start, and no rate limit is specified.", "evidence": "Spec lines 1127, 1171" }
+      ]
+    }
+  ],
+  "crossCutting": [
+    { "id": "X-1", "severity": "Minor", "summary": "(Carried over, not resolved.) §7.2 still overrides the built CSS ('this table wins'), and lines carrying internal QA IDs rose from 81 to 142. §6.2 was excluded this round.", "evidence": "Spec line 1527" }
+  ],
+  "productConfirm": [
+    "Support-assisted recovery (Q7): the written verification procedure and who may change an email (the main account-takeover risk); how support reaches the person (not the dead mailbox); an expected response time shown on screen C; the same 'Can't get the code?' route at identity sign-in for signed-out people.",
+    "Reusable day-30 link: token bound to the address and revoked at day 60; rate limits on Export-start and code sends; the enumeration trade-off on Export-start and Signin-deleted; the open legal check on 60-day retention (Q3)."
+  ],
+  "round1Issues": [
+    { "id": "SH-1", "status": "Resolved", "evidence": "The skip link is the first Tab stop (44 px pill, ring, to #page-title): shots/Main@1280x800@tab_1.png; spec line 433" },
+    { "id": "SH-2", "status": "Resolved", "evidence": "text-overflow ellipsis with no half glyph: shots/Profile-extreme@2880x1800@zoom2@el_.ra-side-email.png (nit: about a 6 px gap before '@')" },
+    { "id": "PR-1", "status": "Partly", "evidence": "1-line slots from a 420 px column; #email-title 692→676 (1440), 1176→1148 (390); a ~150 px blank block remains" },
+    { "id": "PR-2", "status": "Resolved", "evidence": "Below 620 px the stage sits under First name (CSS order); at 390 the preview starts about 20 px under the field. See new N2-02" },
+    { "id": "PR-3", "status": "Resolved", "evidence": "Documented exception: spec lines 318, 729" },
+    { "id": "PR-4", "status": "Partly", "evidence": "New description copy; about 100 px of empty body remains: shots/Profile-email-change@1280x800.png" },
+    { "id": "PR-5", "status": "Resolved", "evidence": "aria-haspopup removed from Change photo and Upload photo (0 hits)" },
+    { "id": "PR-6", "status": "Resolved", "evidence": "Documented exception: spec line 317" },
+    { "id": "SE-1", "status": "Resolved", "evidence": "Loading = loaded: #sessions-title 688/688 (1440), 1032/1032 (320); #activity-title 1116/1116, 1700/1700" },
+    { "id": "SE-2", "status": "Not resolved", "evidence": "Gaps unchanged: shots/Security@1440x900@full.png" },
+    { "id": "SE-3", "status": "Resolved", "evidence": "Spec §4.0 hand-off lines 552-558, §7.4 line 1630, §8 'Confirm → step-up'. See new N2-05" },
+    { "id": "SE-4", "status": "Resolved", "evidence": "'The passkey prompt closed. Try again.' (Security-passkey-failed)" },
+    { "id": "SE-5", "status": "Resolved", "evidence": "'Don't recognize a device? Sign it out, then check your passkeys and your email account's security.'" },
+    { "id": "ST-1", "status": "Resolved", "evidence": "'Can't get the code?' opens screen C in the same dialog with a support route for a lost mailbox: Stepup-cant-get-code(-mobile); shots/Stepup-cant-get-code@1280x800.png; spec lines 934, 943-955, Q7" },
+    { "id": "ST-2", "status": "Not resolved", "evidence": "shots/Stepup@1280x800.png; shots/Stepup@390x844.png" },
+    { "id": "ST-3", "status": "Resolved", "evidence": "No ring on the locked error: shots/Stepup-code-locked@1280x800@el_data-slot_dialog-content_.png; spec line 1620" },
+    { "id": "ST-4", "status": "Resolved", "evidence": "Spec §4.0 lines 559-563 (visualViewport, footer above the keyboard)" },
+    { "id": "PF-1", "status": "Not resolved", "evidence": "shots/Preferences@320x640@full.png" },
+    { "id": "PF-2", "status": "Resolved", "evidence": "Spec §4.5 line 976 (reload in place, focus on the Language trigger)" },
+    { "id": "PF-3", "status": "Resolved", "evidence": "fieldset/legend removed; one section pattern (Preferences diff)" },
+    { "id": "CA-1", "status": "Resolved", "evidence": "Spec line 1016 and §8 (LogoUri, letter-tile fallback)" },
+    { "id": "DP-1", "status": "Resolved", "evidence": "Spec reclassifies the delete dialog as a form dialog with a right-aligned footer; .is-even withdrawn (line 305); board and spec agree" },
+    { "id": "DP-2", "status": "Resolved", "evidence": "'devices' in Data and Data-ready" },
+    { "id": "DP-3", "status": "Resolved", "evidence": "'After that, you can't sign in, use Richie with this account or get it back.'" },
+    { "id": "DP-4", "status": "Resolved", "evidence": "Spec line 1064 (matching rules, localised phrase)" },
+    { "id": "DP-5", "status": "Partly", "evidence": "The spec scrolls the field into view, but the board moved the field above the list. See new N2-01" },
+    { "id": "DL-1", "status": "Resolved", "evidence": "Day-30 link reusable until day 60 with a fresh code each use; 'Request a new download' always reaches /export; Export-start and Signin-deleted added (spec lines 1082-1090, 1118-1171)" },
+    { "id": "DL-2", "status": "Resolved", "evidence": "Account chip on Deletion-pending: shots/Deletion-pending@390x844.png" },
+    { "id": "DL-3", "status": "Resolved", "evidence": "Keep continues to the return URL (spec line 1114)" },
+    { "id": "DL-4", "status": "Resolved", "evidence": "Expired-page h1 and document titles match (spec lines 1157-1162)" },
+    { "id": "DL-5", "status": "Resolved", "evidence": "1× (31×39) brand mark: shots/Data-deleted@1440x900.png" },
+    { "id": "X-1", "status": "Not resolved", "evidence": "'this table wins' still at spec line 1527; QA-ID lines 81→142; §6.2 excluded this round" },
+    { "id": "X-2", "status": "Resolved", "evidence": "§8 row 18: dismissible={false}" }
+  ],
+  "strengths": [
+    "Recovery is now designed: screen C turns the lost-mailbox dead end into a calm, specific route that keeps the dialog's height and the code state, with its focus rules specified.",
+    "The deletion lifecycle has no dead ends: one token rule, three entry points to the export, an account chip on the pending page, and a return URL on Keep.",
+    "A precise fix pass: skeletons now match the loaded layout exactly, every copy fix landed, and the hand-off and keyboard rules were written into the spec."
+  ],
+  "mustFix": []
+}
