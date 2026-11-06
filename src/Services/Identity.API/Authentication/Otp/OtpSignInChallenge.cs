@@ -1,0 +1,6 @@
+using Duende.UserManagement;
+using Duende.UserManagement.Authentication.Otp;
+
+namespace Identity.API.Authentication.Otp;
+
+internal sealed record OtpSignInChallenge(OtpToken Token, EmailAddress Email) : OtpChallenge(Token, Email);

@@ -35,6 +35,8 @@ internal static class HostingExtensions
 
         builder.Services.AddScoped<IOtpDispatcher, ResendOtpDispatcher>();
 
+        builder.Services.AddSingleton<OtpCookie>();
+
         builder.Services
             .AddIdentityServer()
             .AddStorage(storage => storage.AddPostgreSql(options => options.SchemaName = IdentityDatabase.Schema))
